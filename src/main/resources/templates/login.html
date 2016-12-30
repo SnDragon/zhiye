@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>登录</title>
+<link rel="stylesheet" type="text/css" href="css/lib/reset.css" />
+<link rel="stylesheet" type="text/css" href="css/lib/bootstrap.min.css" />
+<link rel="stylesheet" type="text/css" href="css/style/common.css" />
+<link rel="stylesheet" type="text/css" href="css/style/logAndReg.css" />
+</head>
+<body>
+	<header role="banner" class="AppHeader">
+		<div class="AppHeader-inner">
+			<a href="home.html" aria-label="知也" class="AppName" title="进入首页">知也</a>
+			<span>登录页</span>
+		</div>
+	</header>
+
+	<main role="main" class="App-main">
+		<div class="main-feed-wrapper">
+			<!--<form id="loginForm" action="#" method="post">-->
+				<div>
+					<label for="email">邮箱</label>
+					<input type="text" name="username" id="email" placeholder="请输入您的邮箱" class="form-control" required="true" />
+				</div>
+				<div>
+					<label for="password">密码</label>
+					<input type="password" name="password" id="password" placeholder="输入你的密码" class="form-control" required="true" />
+				</div>
+                <button id ="login" type="submit" class="change btn btn-primary">登录</button>
+                <a href="./register" class="logReg-textButton">注册</a>
+            <!--</form>	-->
+		</div>
+	</main>
+
+
+<script type="text/javascript" src="js/lib/jquery.min.js"></script>
+<script type="text/javascript" src="js/lib/bootstrap.min.js"></script>
+<script type="text/javascript">
+	var path="/zhiye";
+	$(document).ready(function(){
+		$("#login").click(function(){
+			var email=$("#email").val();
+			var password=$("#password").val();
+			$.ajax({
+				type:"POST",
+				url:path+"/users/loginResult",
+				contentType:"application/json",
+				data:JSON.stringify({
+					email:email,
+					password:password
+				}),
+				dataType:"json",
+				success:function(data){
+					console.log(JSON.stringify(data));
+					if(data.flag=="success"){
+						alert("登录成功");
+						window.location.href=path+"/index";
+					}else{
+						alert("登录失败")
+					}
+				}
+			})
+		});
+	});
+</script>
+</body>
+</html>

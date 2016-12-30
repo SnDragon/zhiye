@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>注册</title>
+<link rel="stylesheet" type="text/css" href="css/lib/reset.css" />
+<link rel="stylesheet" type="text/css" href="css/lib/bootstrap.min.css" />
+<link rel="stylesheet" type="text/css" href="css/style/common.css" />
+<link rel="stylesheet" type="text/css" href="css/style/logAndReg.css" />
+</head>
+<body>
+	<header role="banner" class="AppHeader">
+		<div class="AppHeader-inner">
+			<a href="home.html" aria-label="知也" class="AppName" title="进入首页">知也</a>
+			<span>注册页</span>
+		</div>
+	</header>
+
+	<main role="main" class="App-main">
+		<div class="main-feed-wrapper">
+			<!--<form id="registerForm" action="#" method="post">-->
+				<div>
+					<label for="email">邮箱</label>
+					<input type="text" name="username" id="email" placeholder="设置你的邮箱" class="form-control" required="true" />
+				</div>
+				<div>
+					<label for="username">用户名</label>
+					<input type="text" name="username" id="username" placeholder="设置你的用户名" class="form-control" required="true" />
+				</div>
+				<div>
+					<label for="password">密码</label>
+					<input type="password" name="password" id="password" placeholder="设置你的密码" class="form-control" required="true" />
+				</div>
+				<div>
+					<label for="password2">确认密码</label>
+					<input type="password" name="password2" id="password2" placeholder="确认你的密码" class="form-control" required="true" />
+				</div>
+                <button id="register" type="submit" class="change btn btn-primary">注册</button>
+                <a href="login.html" class="logReg-textButton">登录</a>
+            <!--</form>	-->
+		</div>
+	</main>
+
+
+<script type="text/javascript" src="js/lib/jquery.min.js"></script>
+<script type="text/javascript" src="js/lib/bootstrap.min.js"></script>
+
+<script type="text/javascript" src="js/custom/register.js"></script>
+</body>
+</html>

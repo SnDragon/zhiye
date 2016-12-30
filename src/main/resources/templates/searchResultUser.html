@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>搜索结果</title>
+<link rel="stylesheet" type="text/css" href="css/lib/reset.css" />
+<link rel="stylesheet" type="text/css" href="css/lib/bootstrap.min.css" />
+<link rel="stylesheet" type="text/css" href="css/style/common.css" />
+<link rel="stylesheet" type="text/css" href="css/style/searchResult.css" />
+</head>
+<body>
+	<header role="banner" class="AppHeader">
+		<div class="AppHeader-inner">
+			<a href="home.html" aria-label="知也" class="AppName" title="进入首页">知也</a>
+			<nav role="navigation" class="AppHeader-nav">
+				<a href="home.html" class="AppHeader-navItem">首页</a>
+			</nav>
+			<div role="search" class="SearchBar">
+				<div class="SearchBar-toolWrapper">
+					<form action="searchResultQue.html" class="SearchBar-tool">
+						<div class="SearchBar-input">
+							<input type="text" name="" aria-expanded="false" class="form-control" placeholder="搜索你感兴趣的内容" />
+						</div>
+						<button class="btn btn-default SearchBar-searchIcon">搜索</button>
+					</form>
+				</div>
+				<button type="button" class="SearchBar-askButton Button Button--primary Button--blue" data-toggle="modal" data-target="#askModal">提问</button>
+			</div>
+			<div class="AppHeader-userInfo">
+				<div class="AppHeader-username">
+					<a href="myAnswers.html" title="进入个人主页">薛定谔的猫</a>
+				</div>
+			</div>
+		</div>
+	</header>
+
+	<main role="main" class="App-main">
+		<div class="main-feed-wrapper">
+			<div class="profile-main">
+				<div class="common-box profileMain-wrapper">
+					<div class="profileMain-header">
+						<div class="profileMain-header-inner">
+							<ul role="tablist" class="Tabs ProfileMain-tabs">
+								<li role="tab" class="Tabs-item" aria-controls="Profile-questions">
+									<a class="Tabs-link" href="searchResultQue.html">
+									    &nbsp;&nbsp;&nbsp;问题&nbsp;&nbsp;&nbsp;
+									</a>
+								</li>
+								<li role="tab" class="Tabs-item" aria-controls="Profile-users">
+									<a class="Tabs-link is-active" href="searchResultUser.html">
+									    &nbsp;&nbsp;&nbsp;用户&nbsp;&nbsp;&nbsp;
+									</a>
+								</li>
+							</ul>
+						</div>
+					</div>
+					<div id="Profile-users"  class="List">
+						<div class="List-content">
+							<div class="List-item">
+								<span class="author-link-line">
+									<a href="xuedinge.html" class="author-link">哈哈者</a>
+								</span>
+								<div class="author-info">
+									<span class="authorInfo-ans">
+										<span>15</span>
+										回答
+									</span>
+									<span class="authorInfo-ask">
+										<span>20</span>
+										提问
+									</span>
+								</div>
+							</div>
+							<div class="List-item">
+								<span class="author-link-line">
+									<a href="xuedinge.html" class="author-link">地域使者</a>
+								</span>
+								<div class="author-info">
+									<span class="authorInfo-ans">
+										<span>25</span>
+										回答
+									</span>
+									<span class="authorInfo-ask">
+										<span>10</span>
+										提问
+									</span>
+								</div>
+							</div>
+							<div class="List-item">
+								<span class="author-link-line">
+									<a href="xuedinge.html" class="author-link">鬼怪大叔者</a>
+								</span>
+								<div class="author-info">
+									<span class="authorInfo-ans">
+										<span>12</span>
+										回答
+									</span>
+									<span class="authorInfo-ask">
+										<span>7</span>
+										提问
+									</span>
+								</div>
+							</div>
+							
+							<!-- 加载更多 -->
+							<div class="load-more">
+								<span class="more">加载更多>></span>
+								<span class="loading hide">加载中...</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</main>
+
+<div class="modal" id="askModal">
+	<div class="modal-dialog"> 
+		<div class="modal-content"> 
+ 			<div class="modal-header">
+ 				<button type="button" class="close" data-dismiss="modal"><span>&times;</span></button> 
+ 				<h4 class="modal-title">提问</h4> 
+ 			</div> 
+			<div class="modal-body">
+				<textarea name="question-ask-title" class="form-control" placeholder="输入你的问题" rows="1"></textarea>
+				<br />
+  				<textarea name="question-ask-desc" class="form-control" placeholder="输入你的问题描述" rows="10"></textarea>
+  			</div> 
+  			<div class="modal-footer">
+   				<button type="button" class="btn btn-primary btn-submit-ask">提交</button> 
+   			</div>
+    	</div>
+	</div> 
+</div>
+
+<script type="text/javascript" src="js/lib/jquery.min.js"></script>
+<script type="text/javascript" src="js/lib/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/style/common.js"></script>
+</body>
+</html>
