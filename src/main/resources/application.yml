@@ -12,5 +12,3 @@ spring:
   thymeleaf:
     mode: LEGACYHTML5
     cache: false
-server:
-  context-path: /zhiye

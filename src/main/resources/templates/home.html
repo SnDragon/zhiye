@@ -9,30 +9,7 @@
 <link rel="stylesheet" type="text/css" href="css/style/home.css" />
 </head>
 <body>
-	<header role="banner" class="AppHeader">
-		<div class="AppHeader-inner">
-			<a href="home.html" aria-label="知也" class="AppName" class="进入首页">知也</a>
-			<nav role="navigation" class="AppHeader-nav">
-				<a href="home.html" class="AppHeader-navItem">首页</a>
-			</nav>
-			<div role="search" class="SearchBar">
-				<div class="SearchBar-toolWrapper">
-					<form action="searchResultQue.html" class="SearchBar-tool">
-						<div class="SearchBar-input">
-							<input type="text" name="" aria-expanded="false" class="form-control" placeholder="搜索你感兴趣的内容" />
-						</div>
-						<button class="btn btn-default SearchBar-searchIcon">搜索</button>
-					</form>
-				</div>
-				<button type="button" class="SearchBar-askButton Button Button--primary Button--blue" data-toggle="modal" data-target="#askModal">提问</button>
-			</div>
-			<div class="AppHeader-userInfo">
-				<div class="AppHeader-username">
-					<a href="myAnswers.html" title="进入个人主页" th:text="${session.user.userName}">薛定谔的猫</a>
-				</div>
-			</div>
-		</div>
-	</header>
+	<div th:include="header"></div>
 
 	<main role="main" class="App-main">
 		<div class="main-feed-wrapper">
@@ -184,37 +161,10 @@
     	</div>
 	</div> 
 </div>
-<input type="hidden" id="user_id" th:value="${session.user.id}" />
-<input type="hidden" id="user_name" th:value="${session.user.userName}" />
+
 <script type="text/javascript" src="js/lib/jquery.min.js"></script>
 <script type="text/javascript" src="js/lib/bootstrap.min.js"></script>
 <script type="text/javascript" src="js/style/common.js"></script>
-<script type="text/javascript">
-	var path="/zhiye";
-	$(document).ready(function(){
-		$("#add_question").click(function(){
-			var authorId=$("#user_id").val();
-			var authorName = $("#user_name").val();
-			var title = $("#q_title").val();
-			var content=$("#q_content").val();
-
-			$.ajax({
-				url:path+"/questions/question",
-				type:"POST",
-				contentType:"application/json",
-				data:JSON.stringify({
-					authorId:authorId,
-					authorName:authorName,
-					title:title,
-					content:content
-				}),
-				dataType:"json",
-				success:function(data){
-					console.log(JSON.stringify(data));
-				}
-			})
-		});
-	});
-</script>
+<script type="text/javascript" src="/js/custom/putQuestion.js"></script>
 </body>
 </html>

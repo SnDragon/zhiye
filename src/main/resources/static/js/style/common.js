@@ -170,6 +170,7 @@ $(function(){
 		$("#askModal textarea").val("");
 	});
 	// 提交提问
+	/*
 	$(document).on("click", ".btn-submit-ask", function(){
 		var $questionTitle = $(this).parents(".modal-content").find("textarea").eq(0);
 		var $questionDesc = $(this).parents(".modal-content").find("textarea").eq(1);
@@ -225,6 +226,7 @@ $(function(){
 		// 关闭模态框
 		$(this).parents(".modal-content").find(".close").click();
 	});
+	*/
 });
 
 

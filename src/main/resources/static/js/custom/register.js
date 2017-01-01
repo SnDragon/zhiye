@@ -1,7 +1,7 @@
 /**
  * Created by pc on 2016/12/30.
  */
-var path="/zhiye";
+//var path="/zhiye";
 $(document).ready(function(){
    $("#register").click(function(){
       var email=$("#email").val();
@@ -13,7 +13,7 @@ $(document).ready(function(){
       console.log(email+" "+username+" "+password1+" "+password2);
        $.ajax({
            type:"POST",
-           url:path+"/users/user",
+           url:"/users/user",
            data:{
                email:email,
                username:username,

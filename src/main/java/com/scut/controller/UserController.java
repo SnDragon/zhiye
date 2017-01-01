@@ -7,9 +7,11 @@ import com.scut.service.*;
 import org.apache.log4j.*;
 import org.springframework.stereotype.*;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.*;
 
 import javax.annotation.*;
 import javax.servlet.http.*;
+import java.util.*;
 
 /**
  * Created by pc on 2016/12/30.
@@ -52,15 +54,21 @@ public class UserController {
     @GetMapping(value = "/user/{id}")
     @ResponseBody
     public String showUser(@PathVariable("id")Integer id){
-        Message<User> message=new Message<>();
+        Map<String,Object> map=new HashMap<>();
         User user=userService.findUserById(id);
         if(user!=null){
-            message.setFlag("success");
+            map.put("result","success");
             user.setPassword(null);
+            map.put("user",user);
+//            添加回答数，提问数
         }else{
-            message.setFlag("fail");
+            map.put("result","fail");
         }
-        message.setContent(user);
-        return gson.toJson(message);
+        return gson.toJson(map);
+    }
+
+    @GetMapping(value = "/u/{id}")
+    public String showUserPage(@PathVariable("id")Integer uid){
+       return "myAnswers";
     }
 }
