@@ -28,7 +28,7 @@
 			</div>
 			<div class="AppHeader-userInfo">
 				<div class="AppHeader-username">
-					<a href="myAnswers.html" title="进入个人主页">薛定谔的猫</a>
+					<a href="myAnswers.html" title="进入个人主页" th:text="${session.user.userName}">薛定谔的猫</a>
 				</div>
 			</div>
 		</div>
@@ -174,19 +174,47 @@
  				<h4 class="modal-title">提问</h4> 
  			</div> 
 			<div class="modal-body">
-				<textarea name="question-ask-title" class="form-control" placeholder="输入你的问题" rows="1"></textarea>
+				<textarea id="q_title" name="question-ask-title" class="form-control" placeholder="输入你的问题" rows="1"></textarea>
 				<br />
-  				<textarea name="question-ask-desc" class="form-control" placeholder="输入你的问题描述" rows="10"></textarea>
+  				<textarea id="q_content" name="question-ask-desc" class="form-control" placeholder="输入你的问题描述" rows="10"></textarea>
   			</div> 
   			<div class="modal-footer">
-   				<button type="button" class="btn btn-primary btn-submit-ask">提交</button> 
+   				<button id="add_question" type="button" class="btn btn-primary btn-submit-ask">提交</button>
    			</div>
     	</div>
 	</div> 
 </div>
-
+<input type="hidden" id="user_id" th:value="${session.user.id}" />
+<input type="hidden" id="user_name" th:value="${session.user.userName}" />
 <script type="text/javascript" src="js/lib/jquery.min.js"></script>
 <script type="text/javascript" src="js/lib/bootstrap.min.js"></script>
 <script type="text/javascript" src="js/style/common.js"></script>
+<script type="text/javascript">
+	var path="/zhiye";
+	$(document).ready(function(){
+		$("#add_question").click(function(){
+			var authorId=$("#user_id").val();
+			var authorName = $("#user_name").val();
+			var title = $("#q_title").val();
+			var content=$("#q_content").val();
+
+			$.ajax({
+				url:path+"/questions/question",
+				type:"POST",
+				contentType:"application/json",
+				data:JSON.stringify({
+					authorId:authorId,
+					authorName:authorName,
+					title:title,
+					content:content
+				}),
+				dataType:"json",
+				success:function(data){
+					console.log(JSON.stringify(data));
+				}
+			})
+		});
+	});
+</script>
 </body>
 </html>

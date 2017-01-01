@@ -20,7 +20,7 @@ public class UserController {
     @Resource
     private UserService userService;
     private Gson gson=new Gson();
-
+//    处理用户注册
     @PostMapping(value = "/user")
     @ResponseBody
     public String insertUser(@RequestParam(value = "email")String email,
@@ -32,6 +32,7 @@ public class UserController {
         return gson.toJson(message);
     }
 
+//    处理用户登录
     @PostMapping(value = "/loginResult",produces = "application/json")
     @ResponseBody
     public String doLogin(@RequestBody User user, HttpSession session){
@@ -47,4 +48,19 @@ public class UserController {
         return gson.toJson(message);
     }
 
+//    请求id用户信息
+    @GetMapping(value = "/user/{id}")
+    @ResponseBody
+    public String showUser(@PathVariable("id")Integer id){
+        Message<User> message=new Message<>();
+        User user=userService.findUserById(id);
+        if(user!=null){
+            message.setFlag("success");
+            user.setPassword(null);
+        }else{
+            message.setFlag("fail");
+        }
+        message.setContent(user);
+        return gson.toJson(message);
+    }
 }

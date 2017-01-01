@@ -14,8 +14,10 @@ create table `user`(
 create table `question`(
 	id int primary key auto_increment,
     author_id int not null,
+    author_name varchar(20) not null comment '提出者昵称',
     title varchar(255) not null comment '问题标题',
     content varchar(500) not null comment '问题内容',
+    num_of_answer int not null default 0 comment '回答数',
     time datetime not null comment '提出时间',
     foreign key (author_id) references user(id)
     );
