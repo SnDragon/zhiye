@@ -41,13 +41,9 @@ public class QuestionService {
         return questionDao.findAll();
     }
 
-    public String getQuestionContent(Integer id) {
+    public QuestionContent getQuestionContent(Integer id) {
         QuestionContent q=questionContentDao.findByQuestionId(id);
-        if(q!=null){
-            return q.getContent();
-        }else{
-            return "fail";
-        }
+        return q;
     }
 
     public Page<Question> getQuestionListByPageOrderByTime(Pageable pageable) {

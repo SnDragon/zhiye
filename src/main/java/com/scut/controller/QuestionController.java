@@ -41,8 +41,16 @@ public class QuestionController {
 //返回问题详情内容
     @GetMapping(value = "/q/{id}/detail")
     @ResponseBody
-    public String getQuestionContent(@PathVariable("id")Integer id){
-        return questionService.getQuestionContent(id);
+    public Map<String,String> getQuestionContent(@PathVariable("id")Integer id){
+        Map<String,String> map=new HashMap<>();
+        QuestionContent questionContent= questionService.getQuestionContent(id);
+        if(questionContent!=null){
+            map.put("result","success");
+            map.put("content", questionContent.getContent());
+        }else{
+            map.put("result","fail");
+        }
+       return map;
     }
 
 //    按时间排序分页返回问题列表
