@@ -71,4 +71,37 @@ public class UserController {
     public String showUserPage(@PathVariable("id")Integer uid){
        return "myAnswers";
     }
+
+//    更新用户性别
+    @PostMapping(value = "/u/{id}/sex")
+    @ResponseBody
+    public String updateUserSex(@PathVariable("id")Integer uid,@RequestParam("sex")Integer sex){
+        Map<String,String> map=new HashMap<>();
+        if(userService.updateUserSex(uid,sex)){
+            map.put("result","success");
+        }else{
+            map.put("result","fail");
+        }
+        return gson.toJson(map);
+    }
+
+//    更新密码
+    @PostMapping(value = "/u/{id}/password")
+    @ResponseBody
+    public String updatePassword(@PathVariable("id")Integer uid,
+                                 @RequestParam("oldPass")String oldPass,
+                                 @RequestParam("newPass1")String newPass1,
+                                 @RequestParam("newPass2")String newPass2){
+        Map<String,String> map=new HashMap<>();
+        String result=userService.updatePassword(uid,oldPass,newPass1,newPass2);
+        if(result.equals("success")){
+            map.put("result",result);
+        }else{
+            map.put("result","fail");
+            map.put("reason",result);
+        }
+
+        return gson.toJson(map);
+    }
+
 }

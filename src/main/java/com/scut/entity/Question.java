@@ -4,19 +4,21 @@ import org.hibernate.annotations.*;
 
 import javax.persistence.*;
 import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.sql.*;
 
 /**
  * Created by pc on 2016/12/31.
  */
-@Entity(name = "question")
+@Entity
+@Table(name = "question")
 @DynamicInsert
 public class Question {
     private Integer id;
     private Integer authorId;
     private String authorName;
     private String title;
-    private String content;
+    private String summary;
     private Integer numOfAnswers;
     private Timestamp time;
 
@@ -56,12 +58,12 @@ public class Question {
         this.title = title;
     }
 
-    public String getContent() {
-        return content;
+    public String getSummary() {
+        return summary;
     }
 
-    public void setContent(String content) {
-        this.content = content;
+    public void setSummary(String summary) {
+        this.summary = summary;
     }
 
     @Column(name = "num_of_answer")
@@ -88,7 +90,7 @@ public class Question {
                 ", authorId=" + authorId +
                 ", authorName='" + authorName + '\'' +
                 ", title='" + title + '\'' +
-                ", content='" + content + '\'' +
+                ", summary='" + summary + '\'' +
                 ", numOfAnswers=" + numOfAnswers +
                 ", time=" + time +
                 '}';

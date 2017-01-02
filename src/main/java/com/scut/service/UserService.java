@@ -7,6 +7,7 @@ import com.scut.entity.*;
 import com.scut.util.*;
 import com.sun.xml.internal.ws.api.message.*;
 import org.springframework.stereotype.*;
+import org.springframework.transaction.annotation.*;
 
 import javax.annotation.*;
 import java.util.*;
@@ -43,17 +44,35 @@ public class UserService {
     public User doLogin(User user) {
         String md5Pass=MD5Util.getMD5(user.getPassword());
         user.setPassword(md5Pass);
-        List<User> userList=userDao.findByEmailAndPassword(user.getEmail(),user.getPassword());
+        User user1=userDao.findByEmailAndPassword(user.getEmail(),user.getPassword());
 
-        if(userList.size()>0){
-           return userList.get(0);
-        }else{
-           return null;
-        }
+        return user1;
     }
 
     public User findUserById(Integer id) {
         return userDao.findOne(id);
     }
+    @Transactional
+    public boolean updateUserSex(Integer uid, Integer sex) {
+        try{
+            userDao.updateUserSex(uid,sex);
+            return true;
+        }catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
+    }
 
+    @Transactional
+    public String updatePassword(Integer uid, String oldPass, String newPass1, String newPass2) {
+        if(!newPass1.equals(newPass2)){
+            return "密码不同";
+        }
+        if(userDao.updatePassword(uid,MD5Util.getMD5(oldPass),MD5Util.getMD5(newPass1))>0){
+            return "success";
+        }else{
+            return "原密码错误";
+        }
+
+    }
 }

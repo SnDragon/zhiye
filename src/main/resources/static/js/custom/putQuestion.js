@@ -27,7 +27,7 @@ $(document).ready(function(){
                 authorId:authorId,
                 authorName:authorName,
                 title:title,
-                content:content
+                summary:content
             }),
             dataType:"json",
             success:function(data){
