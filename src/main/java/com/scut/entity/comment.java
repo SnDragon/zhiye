@@ -16,7 +16,6 @@ import java.sql.*;
 public class Comment {
     private Integer id;
     private Integer parentId;
-    private Integer questionId;
     private Integer authorId;
     private String authorName;
     private Integer replyId;
@@ -24,6 +23,34 @@ public class Comment {
     private String thread;
     private String summary;
     private Timestamp time;
+    private Integer numOfSupport;
+    private Integer numOfAnswer;
+    private Question question;
+    private boolean isSupport;
+
+
+    public Comment(){
+        isSupport=false;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "question_id",nullable = false)
+    public Question getQuestion() {
+        return question;
+    }
+
+    public void setQuestion(Question question) {
+        this.question = question;
+    }
+
+    @Column(name = "num_of_support")
+    public Integer getNumOfSupport() {
+        return numOfSupport;
+    }
+
+    public void setNumOfSupport(Integer numOfSupport) {
+        this.numOfSupport = numOfSupport;
+    }
 
     @Id
     @GeneratedValue
@@ -44,14 +71,14 @@ public class Comment {
         this.parentId = parentId;
     }
 
-    @Column(name = "question_id")
-    public Integer getQuestionId() {
-        return questionId;
-    }
-
-    public void setQuestionId(Integer questionId) {
-        this.questionId = questionId;
-    }
+//    @Column(name = "question_id")
+//    public Integer getQuestionId() {
+//        return questionId;
+//    }
+//
+//    public void setQuestionId(Integer questionId) {
+//        this.questionId = questionId;
+//    }
 
     @Column(name = "author_id")
     public Integer getAuthorId() {
@@ -113,12 +140,29 @@ public class Comment {
         this.time = time;
     }
 
+    @Column(name = "num_of_answer")
+    public Integer getNumOfAnswer() {
+        return numOfAnswer;
+    }
+
+    public void setNumOfAnswer(Integer numOfAnswer) {
+        this.numOfAnswer = numOfAnswer;
+    }
+
+    @Transient
+    public boolean isSupport() {
+        return isSupport;
+    }
+
+    public void setSupport(boolean support) {
+        isSupport = support;
+    }
+
     @Override
     public String toString() {
         return "Comment{" +
                 "id=" + id +
                 ", parentId=" + parentId +
-                ", questionId=" + questionId +
                 ", authorId=" + authorId +
                 ", authorName='" + authorName + '\'' +
                 ", replyId=" + replyId +

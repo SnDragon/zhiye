@@ -19,7 +19,7 @@ create table `question`(
     summary varchar(255) not null comment '问题内容摘要',
     num_of_answer int not null default 0 comment '回答数',
     time datetime not null comment '提出时间',
-    foreign key (author_id) references user(id)
+    foreign key (author_id) references user(id) on delete cascade
     );
 
 #提问内容
@@ -27,9 +27,9 @@ create table `question_content`(
 	id int primary key auto_increment,
     question_id int not null,
     content text comment '提问内容',
-    foreign key (question_id) references question(id)
+    foreign key (question_id) references question(id) on delete cascade
     );
-    
+
 #回答表
 create table `comment`(
 	id int primary key auto_increment,
@@ -42,10 +42,12 @@ create table `comment`(
     thread varchar(255) not null default '/' comment '用于表示嵌套关系',
     summary varchar(255) not null comment '回答内容摘要',
     time datetime not null comment '回答时间',
-    foreign key (parent_id) references comment(id),
-    foreign key (question_id) references question(id),
-    foreign key (author_id) references user(id),
-    foreign key (reply_id) references user(id)
+    num_of_support int not null default 0 comment '点赞人数',
+    num_of_answer int not null default 0 comment '评论人数',
+    foreign key (parent_id) references comment(id) on delete cascade,
+    foreign key (question_id) references question(id) on delete cascade,
+    foreign key (author_id) references user(id) on delete cascade,
+    foreign key (reply_id) references user(id) on delete cascade
 	);
 #回答内容表
 
@@ -53,7 +55,7 @@ create table `comment_content`(
 	id int primary key auto_increment,
     comment_id int not null,
     content text comment '回答内容',
-    foreign key (comment_id) references comment(id)
+    foreign key (comment_id) references comment(id) on delete cascade
 	);
     
 #点赞表
@@ -61,6 +63,10 @@ create table `support`(
 	id int primary key auto_increment,
     user_id int not null comment '点赞用户id',
     comment_id int not null comment '被点赞的评论id',
-    foreign key (user_id) references user(id),
-    foreign key (comment_id) references comment(id)
+    foreign key (user_id) references user(id) on delete cascade,
+    foreign key (comment_id) references comment(id) on delete cascade
 	);
+    
+insert into user(email,username,password)
+value('1803240383@qq.com','dragon','e10adc3949ba59abbe56e057f20f883e');
+

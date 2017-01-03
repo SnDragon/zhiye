@@ -3,9 +3,11 @@ package com.scut.entity;
 import org.hibernate.annotations.*;
 
 import javax.persistence.*;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import java.sql.*;
+import java.util.*;
 
 /**
  * Created by pc on 2016/12/31.
@@ -21,6 +23,16 @@ public class Question {
     private String summary;
     private Integer numOfAnswers;
     private Timestamp time;
+//    private List<Comment> commentList=new ArrayList<>();
+
+//    @OneToMany(fetch = FetchType.EAGER)
+//    public List<Comment> getCommentList() {
+//        return commentList;
+//    }
+//
+//    public void setCommentList(List<Comment> commentList) {
+//        this.commentList = commentList;
+//    }
 
     @Id
     @GeneratedValue

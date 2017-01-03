@@ -21,6 +21,25 @@ public class User {
     private Integer sex;
     private Integer integral;
 
+    private Integer numOfQuestion;
+    private Integer numOfAnswer;
+    @Transient
+    public Integer getNumOfAnswer() {
+        return numOfAnswer;
+    }
+
+    public void setNumOfAnswer(Integer numOfAnswer) {
+        this.numOfAnswer = numOfAnswer;
+    }
+    @Transient
+    public Integer getNumOfQuestion() {
+        return numOfQuestion;
+    }
+
+    public void setNumOfQuestion(Integer numOfQuestion) {
+        this.numOfQuestion = numOfQuestion;
+    }
+
     public User(String email, String userName, String password) {
         this.email = email;
         this.userName = userName;

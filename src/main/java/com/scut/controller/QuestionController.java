@@ -38,7 +38,7 @@ public class QuestionController {
     }
 
 
-//返回问题详情内容
+//返回问题详细内容
     @GetMapping(value = "/q/{id}/detail")
     @ResponseBody
     public Map<String,String> getQuestionContent(@PathVariable("id")Integer id){
@@ -78,7 +78,37 @@ public class QuestionController {
         Map<String,Object> map=new HashMap<>();
         map.put("last",questionPage.isLast());
         map.put("content",questionPage.getContent());
+//        System.out.print(questionPage.getContent().get(0).getCommentList().size());
+//        System.out.print(questionPage.getContent().get(0).getCommentList().get(0));
         return map;
     }
+//返回指定id的问题
+    @GetMapping(value = "/q/{id}")
+    @ResponseBody
+    public Map<String,Object> showQuestion(@PathVariable("id")Integer qid){
+        Question question=questionService.getQuestionById(qid);
+        Map<String,Object> map=new HashMap<>();
+        if(question==null){
+            map.put("result","fail");
+        }else{
+            map.put("result","success");
+            map.put("question", question);
+        }
+        return map;
+    }
+//返回指定问题的评论
+    @GetMapping(value = "/q/{id}/comments")
+    @ResponseBody
+    public Map<String,Object> getQuestionComments(@RequestParam(value = "uid",required = false)Integer uid,
+                                                  @RequestParam(value = "page",defaultValue = "0")Integer page,
+                                                  @RequestParam(value = "size",defaultValue = "2")Integer size,
+                                                  @PathVariable("id")Integer qid){
+        Sort sort=new Sort(Sort.Direction.DESC,"time");
+        Pageable pageable = new PageRequest(page, size, sort);
+
+        return questionService.getQuestionComments(uid,qid, pageable);
+    }
+
+
 
 }

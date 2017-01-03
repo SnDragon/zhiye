@@ -2,11 +2,13 @@ package com.scut.service;
 
 import com.scut.dao.*;
 import com.scut.entity.*;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.*;
 import org.springframework.transaction.annotation.*;
 
 import javax.annotation.*;
 import java.sql.*;
+import java.util.*;
 
 /**
  * Created by pc on 2017/1/2.
@@ -17,6 +19,8 @@ public class CommentService {
     private CommentDao commentDao;
     @Resource
     private CommentContentDao commentContentDao;
+    @Resource
+    private SupportDao supportDao;
 
     @Transactional
     public Comment saveComment(Comment comment) {
@@ -36,4 +40,19 @@ public class CommentService {
     }
 
 
+    public Page<Comment> getHotCommentsByPage(Pageable pageable) {
+        return commentDao.findByHot(pageable);
+    }
+
+    public List<Comment> getChildComment(Integer uid, Integer qid, String thread) {
+        List<Comment> commentList=commentDao.findByThread(qid,thread);
+        if(uid!=null){
+            for(Comment comment:commentList){
+                if(supportDao.isSupportExisted(uid,comment.getId())>0){
+                    comment.setSupport(true);
+                }
+            }
+        }
+        return commentList;
+    }
 }

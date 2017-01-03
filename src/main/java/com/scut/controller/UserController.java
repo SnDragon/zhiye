@@ -5,6 +5,7 @@ import com.scut.dto.*;
 import com.scut.entity.*;
 import com.scut.service.*;
 import org.apache.log4j.*;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.*;
@@ -102,6 +103,33 @@ public class UserController {
         }
 
         return gson.toJson(map);
+    }
+//    查看id为{id}的用户的提问
+    @GetMapping(value = "/u/{id}/questions")
+    @ResponseBody
+    public Map<String,Object> getUserQuestion(@RequestParam(value = "page",defaultValue = "0")Integer page,
+                                              @RequestParam(value = "size",defaultValue = "2")Integer size,
+                                              @PathVariable("id")Integer uid){
+        Sort sort = new Sort(Sort.Direction.DESC, "time");
+        Pageable pageable=new PageRequest(page,size,sort);
+        Page<Question> questionPage=userService.getUserQuestion(uid,pageable);
+        Map<String,Object> map=new HashMap<>();
+        map.put("content", questionPage.getContent());
+        map.put("last", questionPage.isLast());
+        map.put("number", questionPage.getTotalElements());
+        return map;
+    }
+
+//    查看id为{id}的用户的回答
+    @GetMapping(value = "/u/{id}/answers")
+    @ResponseBody
+    public Map<String,Object> getUserAnswers(@RequestParam(value = "page",defaultValue = "0")Integer page,
+                                             @RequestParam(value = "size",defaultValue = "2")Integer size,
+                                             @PathVariable("id")Integer uid){
+        Sort sort=new Sort(Sort.Direction.DESC,"time");
+        Pageable pageable = new PageRequest(page, size, sort);
+        return userService.getUserAnswers(uid, pageable);
+
     }
 
 }
