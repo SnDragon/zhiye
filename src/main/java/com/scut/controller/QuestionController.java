@@ -4,6 +4,7 @@ import com.google.gson.*;
 import com.scut.dto.*;
 import com.scut.entity.*;
 import com.scut.service.*;
+import com.scut.util.*;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.*;
 import org.springframework.web.bind.annotation.*;
@@ -29,7 +30,7 @@ public class QuestionController {
         Question question1=questionService.insert(question);
         if(question1!=null){
             message.setFlag("success");
-            question1.setNumOfAnswers(0);
+//            question1.setNumOfAnswers(0);
         }else{
             message.setFlag("fail");
         }
@@ -46,7 +47,7 @@ public class QuestionController {
         QuestionContent questionContent= questionService.getQuestionContent(id);
         if(questionContent!=null){
             map.put("result","success");
-            map.put("content", questionContent.getContent());
+            map.put("content",questionContent.getContent() );
         }else{
             map.put("result","fail");
         }

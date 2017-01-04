@@ -23,6 +23,8 @@ public class Question {
     private String summary;
     private Integer numOfAnswers;
     private Timestamp time;
+    private Integer type;
+
 //    private List<Comment> commentList=new ArrayList<>();
 
 //    @OneToMany(fetch = FetchType.EAGER)
@@ -95,6 +97,14 @@ public class Question {
         this.time = time;
     }
 
+    public Integer getType() {
+        return type;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
+    }
+
     @Override
     public String toString() {
         return "Question{" +
@@ -105,6 +115,7 @@ public class Question {
                 ", summary='" + summary + '\'' +
                 ", numOfAnswers=" + numOfAnswers +
                 ", time=" + time +
+                ", type=" + type +
                 '}';
     }
 }

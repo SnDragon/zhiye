@@ -2,6 +2,7 @@ package com.scut.service;
 
 import com.scut.dao.*;
 import com.scut.entity.*;
+import com.scut.util.*;
 import com.sun.org.apache.xml.internal.utils.*;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.*;
@@ -32,33 +33,43 @@ public class QuestionService {
         question.setTime(time);
         String summary=question.getSummary();
 //        System.out.print("summary:"+summary);
-        if(summary.length()>250){
-            question.setSummary(summary.substring(0,250));
+        question.setNumOfAnswers(0);
+        if(summary.length()>255){
+            question.setSummary(summary.substring(0,255));
+            question.setType(1);
             question=questionDao.save(question);
-
             QuestionContent questionContent=new QuestionContent(question.getId(),summary);
             questionContentDao.save(questionContent);
         }else{
             question=questionDao.save(question);
         }
+        question.setSummary(ContentUtil.transform(question.getSummary()));
         return question;
     }
 
-//    public List<Question> getQuestionListByPage(int page) {
-//        return questionDao.findAll();
-//    }
 
     public QuestionContent getQuestionContent(Integer id) {
         QuestionContent q=questionContentDao.findByQuestionId(id);
+        q.setContent(ContentUtil.transform(q.getContent()));
         return q;
     }
 
     public Page<Question> getQuestionListByPageOrderByTime(Pageable pageable) {
-        return questionDao.findAll(pageable);
+        Page<Question> questionPage = questionDao.findAll(pageable);
+        List<Question> questions = questionPage.getContent();
+        for(Question q:questions){
+            q.setSummary(ContentUtil.transform(q.getSummary()));
+        }
+        return questionPage;
     }
 
     public Page<Question> getQuestionListByPageOrderByHot(Pageable pageable) {
-        return questionDao.findAll(pageable);
+        Page<Question> questionPage = questionDao.findAll(pageable);
+        List<Question> questions = questionPage.getContent();
+        for(Question q:questions){
+            q.setSummary(ContentUtil.transform(q.getSummary()));
+        }
+        return questionPage;
     }
 
     public int  getQuestionCountByAuthorId(Integer uid){
@@ -66,7 +77,9 @@ public class QuestionService {
     }
 
     public Question getQuestionById(Integer qid) {
-        return questionDao.findById(qid);
+        Question question = questionDao.findById(qid);
+        question.setSummary(ContentUtil.transform(question.getSummary()));
+        return question;
     }
 
     public Map<String,Object> getQuestionComments(Integer uid,Integer qid, Pageable pageable) {
@@ -74,6 +87,7 @@ public class QuestionService {
         List<Comment> commentList=commentPage.getContent();
         if(uid!=null){
             for(Comment comment:commentList){
+                comment.setSummary(ContentUtil.transform(comment.getSummary()));
                 if(supportDao.isSupportExisted(uid,comment.getId())>0){
                     comment.setSupport(true);
                 }

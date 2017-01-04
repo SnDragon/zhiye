@@ -2,6 +2,7 @@ package com.scut.service;
 
 import com.scut.dao.*;
 import com.scut.entity.*;
+import com.scut.util.*;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.*;
 import org.springframework.transaction.annotation.*;
@@ -28,26 +29,33 @@ public class CommentService {
         comment.setTime(time);
         System.out.println(comment);
         String summary=comment.getSummary();
-        if(summary.length()>250){
-            comment.setSummary(summary.substring(0,250));
+        if(summary.length()>255){
+            comment.setSummary(summary.substring(0,255));
             comment=commentDao.save(comment);
             CommentContent commentContent=new CommentContent(comment.getId(),summary);
             commentContentDao.save(commentContent);
         }else{
            comment=commentDao.save(comment);
         }
+        comment.setSummary(ContentUtil.transform(comment.getSummary()));
         return comment;
     }
 
 
     public Page<Comment> getHotCommentsByPage(Pageable pageable) {
-        return commentDao.findByHot(pageable);
+        Page<Comment> commentPage = commentDao.findByHot(pageable);
+        List<Comment> commentList = commentPage.getContent();
+        for(Comment comment:commentList){
+            comment.setSummary(ContentUtil.transform(comment.getSummary()));
+        }
+        return commentPage;
     }
 
     public List<Comment> getChildComment(Integer uid, Integer qid, String thread) {
         List<Comment> commentList=commentDao.findByThread(qid,thread);
         if(uid!=null){
             for(Comment comment:commentList){
+                comment.setSummary(ContentUtil.transform(comment.getSummary()));
                 if(supportDao.isSupportExisted(uid,comment.getId())>0){
                     comment.setSupport(true);
                 }

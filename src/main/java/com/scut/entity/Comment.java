@@ -27,7 +27,7 @@ public class Comment {
     private Integer numOfAnswer;
     private Question question;
     private boolean isSupport;
-
+    private Integer type;
 
     public Comment(){
         isSupport=false;
@@ -158,6 +158,14 @@ public class Comment {
         isSupport = support;
     }
 
+    public Integer getType() {
+        return type;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
+    }
+
     @Override
     public String toString() {
         return "Comment{" +
@@ -170,6 +178,11 @@ public class Comment {
                 ", thread='" + thread + '\'' +
                 ", summary='" + summary + '\'' +
                 ", time=" + time +
+                ", numOfSupport=" + numOfSupport +
+                ", numOfAnswer=" + numOfAnswer +
+                ", question=" + question +
+                ", isSupport=" + isSupport +
+                ", type=" + type +
                 '}';
     }
 }
