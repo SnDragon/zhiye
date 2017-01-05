@@ -132,4 +132,18 @@ public class UserController {
 
     }
 
+    @GetMapping(value = "/user/{id}/answers")
+    public String showUserAnswers(@PathVariable("id")Integer uid){
+        return "myAnswers";
+    }
+
+    @GetMapping(value = "/user/{id}/questions")
+    public String showUserQuestions(@PathVariable("id")Integer uid){
+        return "myAsks";
+    }
+
+    @GetMapping(value = "/user/{id}/infos")
+    public String showUserInfos(@PathVariable("id")Integer uid){
+        return "myInfos";
+    }
 }

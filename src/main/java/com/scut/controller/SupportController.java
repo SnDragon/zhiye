@@ -2,7 +2,6 @@ package com.scut.controller;
 
 import com.scut.entity.*;
 import com.scut.service.*;
-import com.sun.org.apache.xml.internal.utils.*;
 import org.springframework.stereotype.*;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,7 +15,7 @@ import java.util.*;
 @RequestMapping(value = "/supports")
 public class SupportController {
     @Resource
-    private SupportService supportService;
+    private SupportServiceTest supportService;
 //对回答点赞
     @PostMapping(value = "/support")
     @ResponseBody

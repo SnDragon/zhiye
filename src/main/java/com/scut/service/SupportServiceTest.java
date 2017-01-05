@@ -10,7 +10,7 @@ import javax.annotation.*;
  * Created by pc on 2017/1/3.
  */
 @Service
-public class SupportService {
+public class SupportServiceTest {
     @Resource
     private SupportDao supportDao;
 

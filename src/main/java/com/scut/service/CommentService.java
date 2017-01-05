@@ -6,6 +6,7 @@ import com.scut.util.*;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.*;
 import org.springframework.transaction.annotation.*;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.*;
 import java.sql.*;
@@ -62,5 +63,12 @@ public class CommentService {
             }
         }
         return commentList;
+    }
+
+
+    public CommentContent findByCommentId(Integer id) {
+        CommentContent commentContent = commentContentDao.findByCommentId(id);
+        commentContent.setContent(ContentUtil.transform(commentContent.getContent()));
+        return commentContent;
     }
 }

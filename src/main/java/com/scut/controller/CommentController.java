@@ -53,5 +53,19 @@ public class CommentController {
         List<Comment> commentList = commentService.getChildComment(uid,qid, thread);
         return commentList;
     }
+//查看回答的具体内容
+    @GetMapping(value = "/c/{id}/detail")
+    @ResponseBody
+    public Map<String,String> showCommentDetail(@PathVariable("id")Integer id){
+        CommentContent commentContent=commentService.findByCommentId(id);
+        Map<String,String> map=new HashMap<>();
+        if(commentContent!=null){
+            map.put("result","success");
+            map.put("content", commentContent.getContent());
+        }else{
+            map.put("result", "fail");
+        }
+        return map;
+    }
 
 }

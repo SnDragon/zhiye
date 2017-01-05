@@ -97,19 +97,33 @@ public class QuestionController {
         }
         return map;
     }
-//返回指定问题的评论
-    @GetMapping(value = "/q/{id}/comments")
+//返回指定问题的评论(按时间排序)
+    @GetMapping(value = "/q/{id}/comments/time")
     @ResponseBody
-    public Map<String,Object> getQuestionComments(@RequestParam(value = "uid",required = false)Integer uid,
+    public Map<String,Object> getQuestionCommentsByTime(@RequestParam(value = "uid",required = false)Integer uid,
                                                   @RequestParam(value = "page",defaultValue = "0")Integer page,
                                                   @RequestParam(value = "size",defaultValue = "2")Integer size,
                                                   @PathVariable("id")Integer qid){
         Sort sort=new Sort(Sort.Direction.DESC,"time");
         Pageable pageable = new PageRequest(page, size, sort);
-
         return questionService.getQuestionComments(uid,qid, pageable);
     }
 
+    @GetMapping(value = "/q/{id}/comments/hot")
+    @ResponseBody
+    public Map<String,Object> getQuestionCommentsByHot(@RequestParam(value = "uid",required = false)Integer uid,
+                                                  @RequestParam(value = "page",defaultValue = "0")Integer page,
+                                                  @RequestParam(value = "size",defaultValue = "2")Integer size,
+                                                  @PathVariable("id")Integer qid){
+        Sort sort=new Sort(Sort.Direction.DESC,"numOfAnswers");
+        Pageable pageable = new PageRequest(page, size, sort);
+        return questionService.getQuestionComments(uid,qid, pageable);
+    }
+
+    @GetMapping("/question/{qid}")
+    public String showQuestionPage(@PathVariable("qid")Integer qid){
+        return "question";
+    }
 
 
 }

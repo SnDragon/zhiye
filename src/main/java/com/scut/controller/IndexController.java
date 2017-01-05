@@ -34,4 +34,9 @@ public class IndexController {
     public String showIndex(){
         return "home";
     }
+
+    @GetMapping(value = "/discovery")
+    public String showDescovery(){
+        return "discovery";
+    }
 }
