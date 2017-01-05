@@ -39,4 +39,9 @@ public class IndexController {
     public String showDescovery(){
         return "discovery";
     }
+    @GetMapping(value = "/test")
+    @ResponseBody
+    public String test(){
+        return "hello";
+    }
 }

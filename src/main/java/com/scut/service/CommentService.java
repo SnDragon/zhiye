@@ -68,7 +68,9 @@ public class CommentService {
 
     public CommentContent findByCommentId(Integer id) {
         CommentContent commentContent = commentContentDao.findByCommentId(id);
-        commentContent.setContent(ContentUtil.transform(commentContent.getContent()));
+        if(commentContent!=null){
+            commentContent.setContent(ContentUtil.transform(commentContent.getContent()));
+        }
         return commentContent;
     }
 }

@@ -17,5 +17,7 @@ public interface SupportDao extends Repository<Support,Integer> {
 
     void save(Support support);
 
-    void deleteByUserIdAndCommentId(Integer uid, Integer commentId);
+    @Query("delete from Support s where s.userId=?1 and s.commentId=?2")
+    @Modifying
+    int deleteByUserIdAndCommentId(Integer uid, Integer commentId);
 }

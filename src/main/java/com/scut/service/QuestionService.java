@@ -50,7 +50,9 @@ public class QuestionService {
 
     public QuestionContent getQuestionContent(Integer id) {
         QuestionContent q=questionContentDao.findByQuestionId(id);
-        q.setContent(ContentUtil.transform(q.getContent()));
+        if(q!=null){
+            q.setContent(ContentUtil.transform(q.getContent()));
+        }
         return q;
     }
 
@@ -78,7 +80,9 @@ public class QuestionService {
 
     public Question getQuestionById(Integer qid) {
         Question question = questionDao.findById(qid);
-        question.setSummary(ContentUtil.transform(question.getSummary()));
+       if(question!=null){
+           question.setSummary(ContentUtil.transform(question.getSummary()));
+       }
         return question;
     }
 

@@ -15,7 +15,7 @@ import java.util.*;
 @RequestMapping(value = "/supports")
 public class SupportController {
     @Resource
-    private SupportServiceTest supportService;
+    private SupportService supportService;
 //对回答点赞
     @PostMapping(value = "/support")
     @ResponseBody

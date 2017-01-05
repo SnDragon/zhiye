@@ -3,6 +3,7 @@ package com.scut.service;
 import com.scut.dao.*;
 import com.scut.entity.*;
 import org.springframework.stereotype.*;
+import org.springframework.transaction.annotation.*;
 
 import javax.annotation.*;
 
@@ -10,7 +11,7 @@ import javax.annotation.*;
  * Created by pc on 2017/1/3.
  */
 @Service
-public class SupportServiceTest {
+public class SupportService {
     @Resource
     private SupportDao supportDao;
 
@@ -25,11 +26,11 @@ public class SupportServiceTest {
         }
     }
 
+    @Transactional
     public boolean removeSupport(Integer uid, Integer commentId) {
-        try{
-            supportDao.deleteByUserIdAndCommentId(uid, commentId);
+        if(supportDao.deleteByUserIdAndCommentId(uid,commentId)>0){
             return true;
-        }catch (Exception e){
+        }else{
             return false;
         }
     }
