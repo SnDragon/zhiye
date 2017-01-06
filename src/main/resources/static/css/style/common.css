@@ -290,7 +290,8 @@ a.meta-item.toggle-comment.on {
     padding-bottom: 5px;
 }
 .comment-wrapper .icon-spike {
-    background-image: url("https://static.zhihu.com/static/revved/img/sprites-1.9.2.4c54885a.png");
+    /*background-image: url("https://static.zhihu.com/static/revved/img/sprites-1.9.2.4c54885a.png");*/
+    background-image: url("../../img/common/sprites.png");
     background-repeat: no-repeat;
     display: inline-block;
     vertical-align: middle;
@@ -410,7 +411,7 @@ a.meta-item.toggle-comment.on {
     font-weight: 600;
 }
 
-/*模态框头部*/
+/*模态框*/
 .modal .modal-header {
     background-color: #259;
     color: white;
@@ -420,6 +421,14 @@ a.meta-item.toggle-comment.on {
 }
 .modal .modal-body {
     min-height: 100px;
+}
+#popModal .modal-dialog {
+    width: 350px;
+}
+#popModal .modal-body {
+    font-size: 20px;
+    text-align: center;
+    line-height: 100px;
 }
 
 /*暂无系列*/
@@ -441,5 +450,22 @@ a.meta-item.toggle-comment.on {
     background-color: #698ebf;
 }
 
+.question-filter {
+    padding: 5px 15px;
+    margin-bottom: 5px;
+    text-align: right;
+}
+.question-filter .hot-filter {
+    padding-right: 5px;
+}
+.question-filter .time-filter {
+    border-left: 1px solid #666;
+    padding-left: 10px;
+}
+.selected-filter {
+    color: #259;
+    font-size: 16px;
+    font-weight: 600;
+}
 
 

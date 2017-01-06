@@ -34,8 +34,8 @@ public class QuestionService {
         String summary=question.getSummary();
 //        System.out.print("summary:"+summary);
         question.setNumOfAnswers(0);
-        if(summary.length()>255){
-            question.setSummary(summary.substring(0,255));
+        if(summary.length()>200){
+            question.setSummary(summary.substring(0,200));
             question.setType(1);
             question=questionDao.save(question);
             QuestionContent questionContent=new QuestionContent(question.getId(),summary);

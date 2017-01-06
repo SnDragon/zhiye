@@ -2,6 +2,7 @@
  * Created by pc on 2017/1/1.
  */
 $(document).ready(function(){
+    var $popModal = $("#popModal");
     $("#add_question").click(function(){
         var $questionTitle = $(this).parents(".modal-content").find("textarea").eq(0);
         var $questionDesc = $(this).parents(".modal-content").find("textarea").eq(1);
@@ -31,10 +32,21 @@ $(document).ready(function(){
             }),
             dataType:"json",
             success:function(data){
-                console.log(JSON.stringify(data));
+                console.log(data);
+                $popModal.find(".modal-body").html("提问成功！");
+                $popModal.modal("show");
+            },
+            fail:function (data) {
+                console.log(data);
+                $popModal.find(".modal-body").html("提问失败！");
+                $popModal.modal("show");
             }
         })
         // 关闭模态框
         $(this).parents(".modal-content").find(".close").click();
+    });
+
+    $popModal.find(".modal-footer button").click(function () {
+        $popModal.find(".close").click();
     });
 });

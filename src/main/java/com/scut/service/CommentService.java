@@ -37,8 +37,8 @@ public class CommentService {
         comment.setTime(time);
         System.out.println(comment);
         String summary=comment.getSummary();
-        if(summary.length()>255){
-            comment.setSummary(summary.substring(0,255));
+        if(summary.length()>200){
+            comment.setSummary(summary.substring(0,200));
             comment=commentDao.save(comment);
             CommentContent commentContent=new CommentContent(comment.getId(),summary);
             commentContentDao.save(commentContent);
@@ -51,16 +51,21 @@ public class CommentService {
         if(comment.getParentId()!=null){
             commentDao.addChildComment(comment.getParentId());
         }
-        comment.setSummary(ContentUtil.transform(comment.getSummary()));
+//        comment.setSummary(ContentUtil.transform(comment.getSummary()));
         return comment;
     }
 
 
-    public Page<Comment> getHotCommentsByPage(Pageable pageable) {
+    public Page<Comment> getHotCommentsByPage(Pageable pageable,Integer uid) {
         Page<Comment> commentPage = commentDao.findByHot(pageable);
         List<Comment> commentList = commentPage.getContent();
-        for(Comment comment:commentList){
-            comment.setSummary(ContentUtil.transform(comment.getSummary()));
+        if(uid!=null){
+            for(Comment comment:commentList){
+                comment.setSummary(ContentUtil.transform(comment.getSummary()));
+                if(supportDao.isSupportExisted(uid,comment.getId())>0){
+                    comment.setSupport(true);
+                }
+            }
         }
         return commentPage;
     }

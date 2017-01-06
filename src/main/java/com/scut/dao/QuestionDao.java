@@ -23,7 +23,6 @@ public interface QuestionDao extends Repository<Question,Integer>{
     Page<Question> getUserQuestion(Integer uid, Pageable pageable);
 
     @Query("select count(q.id) from Question q where q.authorId=?1")
-    @Modifying
     int getQuestionCountByAuthorId(Integer uid);
 
 

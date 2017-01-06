@@ -20,18 +20,24 @@
 	width: 500px;
 	height: 400px;
 	margin: 50px auto;
-	padding: 80px 60px;	
+	padding: 80px 60px;
 	background-color: white;
 }
-.main-feed-wrapper div, .main-feed-wrapper div {
+.main-feed-wrapper div {
 	padding: 10px;
 }
-.main-feed-wrapper label, .main-feed-wrapper label {
+.main-feed-wrapper label {
 	width: 60px;		
 }
-.main-feed-wrapper input, .main-feed-wrapper input {
+.main-feed-wrapper input {
 	display: inline-block;
 	width: 250px;
+}
+.main-feed-wrapper .errorMessage {
+	display: inline-block;
+	margin-left: 10px;
+	margin-top: 20px;
+	color: red;
 }
 .main-feed-wrapper button, .main-feed-wrapper button {
 	float: right;
