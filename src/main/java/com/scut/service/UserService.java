@@ -109,6 +109,12 @@ public class UserService {
     }
 
     public List<User> searchUser(String key) {
-        return userDao.searchUserByKey(key);
+        List<User> userList = userDao.searchUserByKey(key);
+        for(User user:userList){
+            user.setNumOfQuestion(questionDao.getQuestionCountByAuthorId(user.getId()));
+            user.setNumOfAnswer(commentDao.getCommentCountByUserId(user.getId()));
+            user.setPassword(null);
+        }
+        return userList;
     }
 }

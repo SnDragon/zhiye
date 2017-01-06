@@ -103,6 +103,7 @@ public class QuestionService {
         return map;
     }
 
+    @Transactional
     public boolean removeQuestion(Integer qid, Integer uid) {
         if(questionDao.removeQuestion(qid,uid)>0){
             return true;

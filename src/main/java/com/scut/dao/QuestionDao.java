@@ -23,6 +23,7 @@ public interface QuestionDao extends Repository<Question,Integer>{
     Page<Question> getUserQuestion(Integer uid, Pageable pageable);
 
     @Query("select count(q.id) from Question q where q.authorId=?1")
+    @Modifying
     int getQuestionCountByAuthorId(Integer uid);
 
 
@@ -33,4 +34,12 @@ public interface QuestionDao extends Repository<Question,Integer>{
 
     @Query("select q from Question q where q.title like concat('%',?1,'%') ")
     List<Question> getQuestionsByKey(String key);
+
+    @Query("update Question  q set q.numOfAnswers=q.numOfAnswers+1 where q.id=?1")
+    @Modifying
+    void addComment(Integer id);
+
+    @Query("update Question q set q.numOfAnswers=q.numOfAnswers-?2 where q.id=?1")
+    @Modifying
+    void substractComment(int qid,int number);
 }

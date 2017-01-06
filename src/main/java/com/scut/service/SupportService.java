@@ -14,11 +14,15 @@ import javax.annotation.*;
 public class SupportService {
     @Resource
     private SupportDao supportDao;
+    @Resource
+    private CommentDao commentDao;
 
-
+    @Transactional
     public boolean save(Support support) {
         try{
             supportDao.save(support);
+            //增加评论的赞数
+            commentDao.addSupport(support.getCommentId());
             return true;
         }catch (Exception e){
             e.printStackTrace();
@@ -29,6 +33,7 @@ public class SupportService {
     @Transactional
     public boolean removeSupport(Integer uid, Integer commentId) {
         if(supportDao.deleteByUserIdAndCommentId(uid,commentId)>0){
+            commentDao.removeSupport(commentId);//评论的赞数减一
             return true;
         }else{
             return false;

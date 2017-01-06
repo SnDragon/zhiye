@@ -70,13 +70,11 @@ public class CommentController {
 
     @PostMapping(value = "/comment/{cid}/remove")
     @ResponseBody
-    public String removeComment(@PathVariable("cid")Integer cid,
+    public int removeComment(@PathVariable("cid")Integer cid,
                                 @RequestParam("uid")Integer uid){
-        if(commentService.removeComment(cid,uid)){
-            return "success";
-        }else{
-            return "fail";
-        }
+        //更新的评论数
+        int number = commentService.removeComment(cid, uid);
+        return number;
     }
 
 }

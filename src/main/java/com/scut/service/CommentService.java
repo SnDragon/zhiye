@@ -23,9 +23,16 @@ public class CommentService {
     private CommentContentDao commentContentDao;
     @Resource
     private SupportDao supportDao;
+    @Resource
+    private QuestionDao questionDao;
 
     @Transactional
     public Comment saveComment(Comment comment) {
+        if(comment.getQuestion().getId()==null
+                || comment.getAuthorId()==null || comment.getAuthorName()==null
+                ||comment.getSummary()==null){
+            return null;
+        }
         Timestamp time=new Timestamp(System.currentTimeMillis());
         comment.setTime(time);
         System.out.println(comment);
@@ -37,6 +44,12 @@ public class CommentService {
             commentContentDao.save(commentContent);
         }else{
            comment=commentDao.save(comment);
+        }
+        //问题增加一个评论
+        questionDao.addComment(comment.getQuestion().getId());
+        //评论增加一个评论
+        if(comment.getParentId()!=null){
+            commentDao.addChildComment(comment.getParentId());
         }
         comment.setSummary(ContentUtil.transform(comment.getSummary()));
         return comment;
@@ -75,11 +88,23 @@ public class CommentService {
     }
 
     @Transactional
-    public boolean removeComment(Integer cid, Integer uid) {
-        if(commentDao.removeComment(cid,uid)>0){
-            return true;
-        }else{
-            return false;
+    public int removeComment(Integer cid, Integer uid) {
+        Comment comment=commentDao.findById(cid);
+        if(comment==null || !comment.getAuthorId().equals(uid)){
+            return 0;
         }
+        //获得要删除的评论数（该评论+子评论）
+        int number = commentDao.getNumOfChildComment(comment.getThread()+cid+"/")+1;
+        //删除该评论,获得删除的评论数(该评论及其子评论)
+        commentDao.removeComment(cid,comment.getThread()+cid+"/");
+        System.out.println("number:"+number);
+        //如果有父评论，则其回答数减number
+        if(comment.getParentId()!=null){
+            commentDao.subNumOfAnswer(comment.getParentId(),number);
+        }
+
+        //更新问题评论数
+        questionDao.substractComment(comment.getQuestion().getId(),number);
+        return number;
     }
 }
