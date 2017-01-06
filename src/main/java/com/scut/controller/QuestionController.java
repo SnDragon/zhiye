@@ -115,7 +115,7 @@ public class QuestionController {
                                                   @RequestParam(value = "page",defaultValue = "0")Integer page,
                                                   @RequestParam(value = "size",defaultValue = "2")Integer size,
                                                   @PathVariable("id")Integer qid){
-        Sort sort=new Sort(Sort.Direction.DESC,"numOfAnswers");
+        Sort sort=new Sort(Sort.Direction.DESC,"numOfAnswer");
         Pageable pageable = new PageRequest(page, size, sort);
         return questionService.getQuestionComments(uid,qid, pageable);
     }
@@ -125,5 +125,16 @@ public class QuestionController {
         return "question";
     }
 
+    @PostMapping(value = "/question/{qid}/remove")
+    @ResponseBody
+    public String removeQuestion(@RequestParam("uid")Integer uid,
+                                 @PathVariable("qid")Integer qid){
+        if(questionService.removeQuestion(qid,uid)){
+            return "success";
+        }else{
+            return "fail";
+        }
+
+    }
 
 }

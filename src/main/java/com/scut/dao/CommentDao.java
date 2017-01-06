@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.*;
 import org.springframework.data.repository.*;
 import org.springframework.data.repository.Repository;
 import org.springframework.stereotype.*;
+import org.springframework.transaction.annotation.*;
 
 import java.util.*;
 
@@ -33,4 +34,7 @@ public interface CommentDao extends Repository<Comment,Integer>{
 
     @Query("select c from Comment c where c.question.id=?1")
     Page<Comment> getQuestionComments(Integer qid, Pageable pageable);
+
+    @Query("delete from Comment c where c.id=?1 and c.authorId=?2")
+    int removeComment(Integer cid, Integer uid);
 }

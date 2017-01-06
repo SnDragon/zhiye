@@ -107,4 +107,8 @@ public class UserService {
         map.put("content", commentList);
         return map;
     }
+
+    public List<User> searchUser(String key) {
+        return userDao.searchUserByKey(key);
+    }
 }

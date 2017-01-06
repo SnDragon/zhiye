@@ -68,4 +68,15 @@ public class CommentController {
         return map;
     }
 
+    @PostMapping(value = "/comment/{cid}/remove")
+    @ResponseBody
+    public String removeComment(@PathVariable("cid")Integer cid,
+                                @RequestParam("uid")Integer uid){
+        if(commentService.removeComment(cid,uid)){
+            return "success";
+        }else{
+            return "fail";
+        }
+    }
+
 }

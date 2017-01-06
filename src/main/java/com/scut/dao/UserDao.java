@@ -27,4 +27,7 @@ public interface UserDao extends Repository<User,Integer> {
     @Modifying
     @Query("update User u set u.password=?3 where u.id=?1 and u.password=?2")
     int updatePassword(Integer uid, String oldPass, String newPass);
+
+    @Query("select u from User u where u.userName like concat('%',?1,'%') ")
+    List<User> searchUserByKey(String key);
 }

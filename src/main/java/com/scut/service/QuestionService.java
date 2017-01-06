@@ -102,4 +102,20 @@ public class QuestionService {
         map.put("content", commentList);
         return map;
     }
+
+    public boolean removeQuestion(Integer qid, Integer uid) {
+        if(questionDao.removeQuestion(qid,uid)>0){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    public List<Question> searchQuestion(String key) {
+        List<Question> questionList=questionDao.getQuestionsByKey(key);
+        for(Question q:questionList){
+            q.setSummary(ContentUtil.transform(q.getSummary()));
+        }
+        return questionList;
+    }
 }

@@ -73,4 +73,13 @@ public class CommentService {
         }
         return commentContent;
     }
+
+    @Transactional
+    public boolean removeComment(Integer cid, Integer uid) {
+        if(commentDao.removeComment(cid,uid)>0){
+            return true;
+        }else{
+            return false;
+        }
+    }
 }
