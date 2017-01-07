@@ -7,12 +7,23 @@ $(function() {
     // “显示全部”与“收起”
     $(document).on("click", ".feed-content .feed-summary .expand, .question-detail .feed-summary .expand", function(){
         var $parent = $(this).parent();
+        // if($parent.next().html()){
+        //     $parent.addClass("hide");            // 隐藏简文
+        //     $parent.next().removeClass("hide");  // 显示全文
+        // }
+
+        var $item;
+
         if($parent.parents(".feed-item").html()) {
-            var $item = $parent.parents(".feed-item");
+            $item = $parent.parents(".feed-item");
+        }else if($parent.parents(".List-item").html()){
+            $item = $parent.parents(".List-item");
         }else {
-            var $item = $parent.parents(".List-item");
+            $item = $parent.parents(".question-info").find(".question-link");
         }
+        console.log($item.html());
         var questionId = $item.attr("id").substr(4);  // 取得问题的id
+        console.log(questionId);
 
 
         console.log("questionId: " + questionId);

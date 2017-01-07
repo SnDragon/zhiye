@@ -43,6 +43,7 @@ public interface CommentDao extends Repository<Comment,Integer>{
     Comment findById(Integer cid);
 
     @Query("update Comment c set c.numOfAnswer=c.numOfAnswer-?2 where c.id=?1")
+    @Modifying
     void subNumOfAnswer(Integer parentId,Integer number);
 
     @Query("delete from Comment c where c.id=?1 or c.thread like concat(?2,'%') ")

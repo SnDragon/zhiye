@@ -10,12 +10,11 @@ var finish = false,
 $(function() {
     var currentPath = window.location.pathname;   //    /questions/question/{id}
     var questionId = currentPath.substr(20);
+
     console.log("questionId: " + questionId);
 
-    var userId = $("#user_id");
     var $loadMore = $(".load-moreAns");
     var $more = $loadMore.find(".more");
-    var $loading = $loadMore.find(".loading");
 
     // 加载问题具体信息***********************************************************************
     $.ajax({
@@ -85,81 +84,20 @@ $(function() {
         }
 
         if(ks_area + scrollTop >= wholeHeight){
-            if(finish){
-                return;
-            }
-            if(!page){
-                page = 1;  // 若是第一次“加载更多”
-            }else{
-                page ++;   // 更新加载次数
-            }
-            var page_ = page;
-
-            $more.addClass("hide");
-            $loading.removeClass("hide");
-
-            $.ajax({
-                type:"GET",
-                url: u,
-                contentType:"application/json",
-                data: {
-                    page: page_,
-                    size: 2
-                },
-                dataType: "json",
-                success: function(data){
-                    // 若已没有可加载的数据
-                    if(data.content.length == 0){
-                        $loading.addClass("hide");
-                        finish = true;
-                        return;
-                    }
-                    $.each(data.content, function(){
-                        // 输出格式：2016-01-23
-                        var date = new Date(this.time);
-                        var Y = date.getFullYear() + '-',
-                            M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-',
-                            D = (date.getDate() < 10 ? '0' + date.getDate() : date.getDate()) + ' ';
-                        var time = Y+M+D;
-
-                        console.log("answerId: " + this.id);
-
-                        var str = '<div class="answer-item" id="ans-'
-                            + this.id + '" data-answerThread="'
-                            + this.thread + '">';
-                        if(this.authorId == userId) {
-                            str += '<button class="delete del-answers commentBox-textButton" data-toggle="modal" data-target="#deleteModal">删除</button>';
-                        }
-                        str = str + '<div class="answer-head "><span class="author-link-line"><a href="/users/u/'
-                            + this.authorId + '" class="author-link" data-authorId="'
-                            + this.authorId + '">'
-                            + this.authorName + '</a></span><br /><span class="voters"><span class="voteCount">'
-                            + this.numOfSupport + '</span>&nbsp;人赞同 </span></div><div class="feed-vote" title="赞一个">'
-                            + this.numOfSupport + ' </div><div class="answer-text">';
-                        if(this.type) {
-                            var s = this.summary.replace(/<br\/>/g, ' ');
-                            str = str + '<div class="feed-summary">'
-                                + s + '<span class="expand">显示全部</span></div><div class="feed-summary-whole clearfix hide"></div>';
-                        }else {
-                            str = str + '<div class="feed-summary">'
-                                + this.summary + '</div>';
-                        }
-                        str = str + '</div><div class="answer-actions"><div class="meta-panel"><span class="meta-item answer-date">编辑于'
-                            + time + '</span><a href="#" class="meta-item toggle-comment"><span class="glyphicon glyphicon-comment"></span><span class="comment-num">'
-                            + this.numOfAnswer + '</span>条评论</a></div><div class="comment-holder hide"><div class="comment-wrapper"><i class="icon icon-spike"></i><div class="comment-box"></div><div class="comment-box-expanded"><div class="comment-box-input">'
-                            + '<textarea name="comment-publish" placeholder="写下你的评论" class="form-control"></textarea></div><div class="comment-box-actions clearfix">'
-                            + '<button type="button" class="comment-box-submitButton btn btn-sm btn-primary">评论</button></div></div>';
-
-                        // 插入文档流
-                        $(".answers-wrap").append(str);
-                    });
-
-                    $loading.addClass("hide");
-                    $more.removeClass("hide");
-                }
-            });
+            getMore(u);
         }
     });
+    // 手动加载更多
+    $more.click(function () {
+        var u = "";
+        if($("#answers-filter").find("li a").html() == "按时间排序") {  // 现在为“按赞数排序”
+            u = "/questions/q/" + questionId + "/comments/hot";
+        }else {  // 现在为“按时间排序”
+            u = "/questions/q/" + questionId + "/comments/time";
+        }
+        getMore(u);
+    });
+
 
     // 切换排序方式*****************************************************************
     $(document).on("click", "#answers-filter li", function () {
@@ -184,57 +122,57 @@ $(function() {
 
 
 
-    // 回答问题，先清除模态框中输入框的内容
-    $(document).on("click", ".btn-answer", function(){
-        $("#answerModal textarea").val("");
-    });
-
-    // 提交回答
-    $(document).on("click", ".btn-submit-answer", function(){
-        alert("提交");
-
-        var userName = $("#user_name").val();
-        var $textarea = $(this).parents(".modal-content").find("textarea").eq(0);
-        var answerContent = $textarea.val();
-        if(checkEmpty($textarea)){
-            alert("请输入你的回答！");
-            return false;
-        }
-
-        $.ajax({
-            type: "POST",
-            url: "/comments/comment",
-            contentType: "application/json",
-            data: JSON.stringify({
-                question: {
-                    id: questionId
-                },
-                authorId: userId,
-                authorName: userName,
-                summary: answerContent
-            }),
-            dataType: "json",
-            success: function (data) {
-                // 关闭模态框
-                // $(this).parents(".modal-content").find(".close").click();
-                // $("#popModal").find(".modal-body").html("回答成功");
-                // $("#popModal").modal("show");
-                alert("提交成功");
-            }
-        });
-    });
+    // // 回答问题，先清除模态框中输入框的内容
+    // $(document).on("click", ".btn-answer", function(){
+    //     $("#answerModal textarea").val("");
+    // });
+    //
+    // // 提交回答
+    // $(document).on("click", ".btn-submit-answer", function(){
+    //     alert("提交");
+    //
+    //     var userName = $("#user_name").val();
+    //     var $textarea = $(this).parents(".modal-content").find("textarea").eq(0);
+    //     var answerContent = $textarea.val();
+    //     if(checkEmpty($textarea)){
+    //         alert("请输入你的回答！");
+    //         return false;
+    //     }
+    //
+    //     $.ajax({
+    //         type: "POST",
+    //         url: "/comments/comment",
+    //         contentType: "application/json",
+    //         data: JSON.stringify({
+    //             question: {
+    //                 id: questionId
+    //             },
+    //             authorId: userId,
+    //             authorName: userName,
+    //             summary: answerContent
+    //         }),
+    //         dataType: "json",
+    //         success: function (data) {
+    //             // 关闭模态框
+    //             // $(this).parents(".modal-content").find(".close").click();
+    //             // $("#popModal").find(".modal-body").html("回答成功");
+    //             // $("#popModal").modal("show");
+    //             alert("提交成功");
+    //         }
+    //     });
+    // });
 });
 
 
-// 检查是否为空
-function checkEmpty(target) {
-    var value = target.val().replace(/\s+/g,"");  /*消除字符串所有空格*/
-    if(value == ""){
-        return true;
-    }else{
-        return false;
-    }
-}
+// // 检查是否为空
+// function checkEmpty(target) {
+//     var value = target.val().replace(/\s+/g,"");  /*消除字符串所有空格*/
+//     if(value == ""){
+//         return true;
+//     }else{
+//         return false;
+//     }
+// }
 
 // 更新回答
 function updateAnswers(filter) {
@@ -271,6 +209,8 @@ function updateAnswers(filter) {
                 return;
             }
             $.each(data.content, function(){
+                console.log("answerId: " + this.id);
+
                 // 输出格式：2016-01-23
                 var date = new Date(this.time);
                 var Y = date.getFullYear() + '-',
@@ -290,8 +230,16 @@ function updateAnswers(filter) {
                     + this.authorId + '" class="author-link" data-authorId="'
                     + this.authorId + '">'
                     + this.authorName + '</a></span><br /><span class="voters"><span class="voteCount">'
-                    + this.numOfSupport + '</span>&nbsp;人赞同 </span></div><div class="feed-vote" title="赞一个">'
-                    + this.numOfSupport + ' </div><div class="answer-text">';
+                    + this.numOfSupport + '</span>&nbsp;人赞同 </span></div><div class="feed-vote';
+                if(this.support) {
+                    console.log("answerId: " + this.id + " support:" + this.support);
+                    str += ' voted" title="取消赞">';
+                }else {
+                    console.log("answerId: " + this.id + " support:" + this.support);
+                    str += '" title="赞一个">';
+                }
+
+                str = str + this.numOfSupport + ' </div><div class="answer-text">';
                 if(this.type) {
                     var s = this.summary.replace(/<br\/>/g, ' ');
                     str = str + '<div class="feed-summary">'
@@ -309,6 +257,104 @@ function updateAnswers(filter) {
                 // 插入文档流
                 $(".answers-wrap").append(str);
             });
+        }
+    });
+}
+
+// 加载更多
+function getMore(u) {
+    var currentPath = window.location.pathname;   //    /questions/question/{id}
+    var questionId = currentPath.substr(20);
+    console.log("questionId: " + questionId);
+
+    var userId = $("#user_id").val();
+    var $loadMore = $(".load-moreAns");
+    var $more = $loadMore.find(".more");
+    var $loading = $loadMore.find(".loading");
+
+    if(finish){
+        return;
+    }
+    if(!page){
+        page = 1;  // 若是第一次“加载更多”
+    }else{
+        page ++;   // 更新加载次数
+    }
+    var page_ = page;
+
+    $more.addClass("hide");
+    $loading.removeClass("hide");
+
+    $.ajax({
+        type:"GET",
+        url: u,
+        contentType:"application/json",
+        data: {
+            page: page_,
+            size: 2
+        },
+        dataType: "json",
+        success: function(data){
+            // 若已没有可加载的数据
+            if(data.content.length == 0){
+                $loading.addClass("hide");
+                finish = true;
+                return;
+            }
+            $.each(data.content, function(){
+                console.log("answerId: " + this.id);
+
+                // 输出格式：2016-01-23
+                var date = new Date(this.time);
+                var Y = date.getFullYear() + '-',
+                    M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-',
+                    D = (date.getDate() < 10 ? '0' + date.getDate() : date.getDate()) + ' ';
+                var time = Y+M+D;
+
+                console.log("answerId: " + this.id);
+
+                var str = '<div class="answer-item" id="ans-'
+                    + this.id + '" data-answerThread="'
+                    + this.thread + '">';
+                if(this.authorId == userId) {
+                    str += '<button class="delete del-answers commentBox-textButton" data-toggle="modal" data-target="#deleteModal">删除</button>';
+                }
+                str = str + '<div class="answer-head "><span class="author-link-line"><a href="/users/u/'
+                    + this.authorId + '" class="author-link" data-authorId="'
+                    + this.authorId + '">'
+                    + this.authorName + '</a></span><br /><span class="voters"><span class="voteCount">'
+                    + this.numOfSupport + '</span>&nbsp;人赞同 </span></div><div class="feed-vote';
+
+                if(this.support){
+                    console.log("answerId: " + this.id + " support:" + this.support);
+                    str = str + ' voted" title="取消赞">';
+                }else{
+                    console.log("answerId: " + this.id + " support:" + this.support);
+                    str = str + '" title="赞一个">';
+                }
+
+                str = str + this.numOfSupport + ' </div><div class="answer-text">';
+
+                if(this.type) {
+                    var s = this.summary.replace(/<br\/>/g, ' ');
+                    str = str + '<div class="feed-summary">'
+                        + s + '<span class="expand">显示全部</span></div><div class="feed-summary-whole clearfix hide"></div>';
+                }else {
+                    str = str + '<div class="feed-summary">'
+                        + this.summary + '</div>';
+                }
+                str = str + '</div><div class="answer-actions"><div class="meta-panel"><span class="meta-item answer-date">编辑于'
+                    + time + '</span><a href="#" class="meta-item toggle-comment"><span class="glyphicon glyphicon-comment"></span><span class="comment-num">'
+                    + this.numOfAnswer + '</span>条评论</a></div><div class="comment-holder hide"><div class="comment-wrapper"><i class="icon icon-spike"></i><div class="comment-box"></div><div class="comment-box-expanded"><div class="comment-box-input">'
+                    + '<textarea name="comment-publish" placeholder="写下你的评论" class="form-control"></textarea></div><div class="comment-box-actions clearfix">'
+                    + '<button type="button" class="comment-box-submitButton btn btn-sm btn-primary">评论</button></div></div>';
+
+                // 插入文档流
+                $(".answers-wrap").append(str);
+            });
+
+            $loading.addClass("hide");
+            $more.removeClass("hide");
         }
     });
 }

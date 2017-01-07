@@ -39,17 +39,20 @@ public class CommentService {
         String summary=comment.getSummary();
         if(summary.length()>200){
             comment.setSummary(summary.substring(0,200));
+            comment.setType(1);
             comment=commentDao.save(comment);
             CommentContent commentContent=new CommentContent(comment.getId(),summary);
             commentContentDao.save(commentContent);
         }else{
            comment=commentDao.save(comment);
         }
-        //问题增加一个评论
-        questionDao.addComment(comment.getQuestion().getId());
-        //评论增加一个评论
+
+        //若是第一级评论，则问题增加一个评论
+        //若不是第一级评论，则父评论增加一个评论
         if(comment.getParentId()!=null){
             commentDao.addChildComment(comment.getParentId());
+        }else{
+            questionDao.addComment(comment.getQuestion().getId());
         }
 //        comment.setSummary(ContentUtil.transform(comment.getSummary()));
         return comment;
@@ -106,10 +109,10 @@ public class CommentService {
         //如果有父评论，则其回答数减number
         if(comment.getParentId()!=null){
             commentDao.subNumOfAnswer(comment.getParentId(),number);
+        }else{
+            //更新问题评论数
+            questionDao.substractComment(comment.getQuestion().getId(),1);
         }
-
-        //更新问题评论数
-        questionDao.substractComment(comment.getQuestion().getId(),number);
         return number;
     }
 }

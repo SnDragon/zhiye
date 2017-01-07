@@ -1,6 +1,8 @@
 $(function(){
-    var currentPath = window.location.pathname;
-    var userId = currentPath.slice(12, -6);
+    // var currentPath = window.location.pathname;
+    // var userId = currentPath.slice(12, -6);
+
+    var userId = $("#user_id").val();
 
     var $tabs = $(".ProfileMain-tabs");
     var finish = false;
@@ -28,41 +30,65 @@ $(function(){
             $tabs.find("li").eq(1).find("span").html(user.numOfQuestion);
             $tabs.find("li").eq(1).find("a").attr("href", "/users/user/" + userId + "/questions");
 
-            $tabs.find("li").eq(2).removeClass("hide");
-            $tabs.find("li").eq(2).find("a").attr("href", "/users/user/" + userId + "/infos");
+            // 设置主体部分
+            var $infoItem = $(".List-content").find(".info-item");
+            $infoItem.eq(0).find(".value").html(user.userName);
+            $infoItem.eq(1).find(".value").html(sex);
         }
     });
+
+    $tabs.find("li").eq(2).removeClass("hide");
+    $tabs.find("li").eq(2).find("a").attr("href", "/users/user/" + userId + "/infos");
 
 
 	// 性别修改
 	var $gender = $(".info-item.gender");
 	var $change = $gender.find(".change");
 	var $saveChange = $gender.find(".saveChange");
+	var $cancelChange = $gender.find(".cancelChange");
 	var $val = $gender.find(".value");
 
+
 	$change.click(function(){
-		var newG = $val.html() == "男" ? "女" : "男";
-		$val.html(newG);
-		$saveChange.removeClass("hide");
+        $saveChange.removeClass("hide");
+        $cancelChange.removeClass("hide");
+        $change.addClass("hide");
+        var newG = $val.html() == "男" ? "女" : "男";
+        $val.html(newG);
 	});
+	// 保存“性别”的修改
 	$saveChange.click(function(){
-		$.ajax({ 
-            type: "POST",   
-            url: "",
+	    var sex = $val.html() == "男" ? 1 : 0;
+		$.ajax({
+            type: "POST",
+            url: "/users/u/" + userId + "/sex",
             data: {
-                userGender: $val.html()
+                sex: sex
             },
             dataType: "json",
             success: function(data){
-            	alert("性别修改成功！");   
-                return true;
-            },
-            error: function(jqXHR){    // post请求失败
-                alert("发生错误：" + jqXHR.status);
-            }   
+                if(data.result == "success") {
+                    alert("性别修改成功");
+                    $(".info-author-gender").find("span").html(sex ? "男" : "女");
+                }else {
+                    alert("发生错误，性别修改失败");
+                }
+            }
         });
         $(this).addClass("hide");
+        $cancelChange.addClass("hide");
+        $change.removeClass("hide");
 	});
+	// 取消“性别”的修改
+    $cancelChange.click(function () {
+        var newG = $val.html() == "男" ? "女" : "男";
+        $val.html(newG);
+        $change.removeClass("hide");
+        $saveChange.addClass("hide");
+        $cancelChange.addClass("hide");
+    });
+
+
 
 	// 修改密码
     // 清空模态框的输入框
@@ -104,20 +130,25 @@ $(function(){
         submitHandler: function () {
         	$.ajax({ 
 	            type: "POST",   
-	            url: "",
+	            url: "/users/u/" + userId + "/password",
 	            data: {
 	                oldPass: $("#oldpass").val(),
-	                newPass: $("#newpass").val()
+	                newPass1: $("#newpass").val(),
+                    newPass2: $("#againpass").val()
 	            },
 	            dataType: "json",
-	            success: function(data){   
-	            	alert("密码修改成功！");
-	            	$("#changePasswordModal").find(".close").click(); // 修改成功后关闭模态框
+	            success: function(data){
+	                if(data.result == "success") {
+                        alert("密码修改成功！");
+                        $("#changePasswordModal").find(".close").click(); // 修改成功后关闭模态框
+                    }else {
+	                    alert("密码修改失败！");
+                    }
 	                return true;
 	            },
 	            error: function(jqXHR){    // post请求失败
 	                alert("发生错误：" + jqXHR.status);
-	            }   
+	            }
 	        });
         }
     });    

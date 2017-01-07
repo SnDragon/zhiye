@@ -29,6 +29,7 @@ public interface QuestionDao extends Repository<Question,Integer>{
     Question findById(Integer qid);
 
     @Query("delete from Question q where q.id=?1 and q.authorId=?2")
+    @Modifying
     int removeQuestion(Integer qid, Integer uid);
 
     @Query("select q from Question q where q.title like concat('%',?1,'%') ")

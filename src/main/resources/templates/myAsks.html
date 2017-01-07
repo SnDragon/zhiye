@@ -76,7 +76,6 @@
 		</div>
 	</div>
 </main>
-
 <div class="modal" id="askModal">
 	<div class="modal-dialog">
 		<div class="modal-content">
@@ -85,12 +84,46 @@
 				<h4 class="modal-title">提问</h4>
 			</div>
 			<div class="modal-body">
-				<textarea name="question-ask-title" class="form-control" placeholder="输入你的问题" rows="1"></textarea>
+				<textarea id="q_title" name="question-ask-title" class="form-control" placeholder="输入你的问题" rows="1"></textarea>
 				<br />
-				<textarea name="question-ask-desc" class="form-control" placeholder="输入你的问题描述" rows="10"></textarea>
+				<textarea id="q_content" name="question-ask-desc" class="form-control" placeholder="输入你的问题描述" rows="10"></textarea>
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-primary btn-submit-ask">提交</button>
+				<button id="add_question" type="button" class="btn btn-primary btn-submit-ask">提交</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal" id="deleteModal" data-delId="0">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+				<h4 class="modal-title">删除</h4>
+			</div>
+			<div class="modal-body">
+
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="confirm-del btn btn-primary">确认删除</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal" id="popModal">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+				<h4 class="modal-title">提示</h4>
+			</div>
+			<div class="modal-body">
+
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary">确定</button>
 			</div>
 		</div>
 	</div>
@@ -98,6 +131,8 @@
 
 <script type="text/javascript" src="/js/lib/jquery.min.js"></script>
 <script type="text/javascript" src="/js/lib/bootstrap.min.js"></script>
+<script type="text/javascript" src="/js/custom/putQuestion.js"></script>
+<script type="text/javascript" src="/js/custom/deleteDynamic.js"></script>
 <script type="text/javascript" src="/js/style/common.js"></script>
 <script type="text/javascript" src="/js/style/myAsks.js"></script>
 
