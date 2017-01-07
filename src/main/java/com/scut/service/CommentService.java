@@ -50,7 +50,9 @@ public class CommentService {
         //若是第一级评论，则问题增加一个评论
         //若不是第一级评论，则父评论增加一个评论
         if(comment.getParentId()!=null){
-            commentDao.addChildComment(comment.getParentId());
+            Integer ppid=Integer.parseInt(comment.getThread().split("/")[1]);
+//            System.out.println("ppid:"+ppid);
+            commentDao.addChildComment(ppid);
         }else{
             questionDao.addComment(comment.getQuestion().getId());
         }

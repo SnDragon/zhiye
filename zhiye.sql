@@ -15,7 +15,7 @@ create table `question`(
 	id int primary key auto_increment,
     author_id int not null,
     author_name varchar(20) not null comment '提出者昵称',
-    title varchar(255) not null comment '问题标题',
+    title varchar(255) not null unique comment '问题标题',
     summary varchar(255) not null comment '问题内容摘要',
     num_of_answer int not null default 0 comment '回答数',
     type int(1) not null default 0 comment '内容长度是否大于255，默认为不大于（0）',
@@ -68,7 +68,9 @@ create table `support`(
     foreign key (user_id) references user(id) on delete cascade,
     foreign key (comment_id) references comment(id) on delete cascade
 	);
-use zhiye;
+#为点赞表添加唯一索引
+alter table `support` add unique index(user_id,comment_id);
+
 delete from user;
 insert into user(id,email,username,password)
 value(1,'1803240383@qq.com','dragon','e10adc3949ba59abbe56e057f20f883e');
@@ -98,7 +100,6 @@ values(3,3,'小红','年龄越大读金庸会有什么不同感受吗？',
 
 看了这么多版本的神雕侠侣，论叙事，我必然推崇查公原书，百般桀骜，千重苦情，跃然纸上。但是只有看了香港京昆剧团的京剧《神雕侠侣》，你才能明白，论舞台张力，还是传统戏剧，给人的印象深刻。岁数越大，越能明白，不论倜傥豪侠，还是儿女情长，终究抵不过人生如戏。',
 curtime());
-
 delete from comment;
 insert into comment(id,question_id,author_id,author_name,summary,time)
 values(1,1,2,'小明','其实很疑惑的就是手机为什么不能像笔记本一样有轻薄款和性能款。性能版6.0尺寸起步，一两厘米的厚度，这样的话手机的散热和电池都解决了。而且因为是性能款所以虽然不是主流但是也会有相当一部分人购买的……',curtime());
@@ -122,4 +123,3 @@ values(4,1,1,3,'小红',2,'小明','/1/','专业的东西关注就少…
 update question set num_of_answer=3 where id=1;
 update question set num_of_answer=1 where id=2;
 update comment set num_of_answer=1 where id=1;
-select * from question;

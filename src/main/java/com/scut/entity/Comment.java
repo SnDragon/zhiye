@@ -1,6 +1,7 @@
 package com.scut.entity;
 
 import org.hibernate.annotations.*;
+import org.hibernate.annotations.CascadeType;
 
 import javax.persistence.*;
 import javax.persistence.Entity;
