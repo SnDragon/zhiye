@@ -144,6 +144,6 @@ public class UserController {
 
     @GetMapping(value = "/user/{id}/infos")
     public String showUserInfos(@PathVariable("id")Integer uid){
-        return "myInfos";
+        return "myInfo";
     }
 }

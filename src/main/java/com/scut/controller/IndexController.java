@@ -27,15 +27,15 @@ public class IndexController {
 
     @GetMapping(value = {"/","/login"})
     public String index(HttpSession session){
-//        return "login";
-        User user=new User();
-        user.setUserName("dragon");
-        user.setId(1);
-        user.setSex(1);
-        user.setEmail("1803240383@qq.com");
-        user.setIntegral(0);
-        session.setAttribute("user",user);
-        return "redirect:/index";
+        return "login";
+//        User user=new User();
+//        user.setUserName("dragon");
+//        user.setId(1);
+//        user.setSex(1);
+//        user.setEmail("1803240383@qq.com");
+//        user.setIntegral(0);
+//        session.setAttribute("user",user);
+//        return "redirect:/index";
     }
 
     @GetMapping(value = "/register")
@@ -119,6 +119,11 @@ public class IndexController {
         return "test";
     }
 
+    @PutMapping(value = "/testPut")
+    @ResponseBody
+    public String testPut(){
+        return "put success!";
+    }
 //    @RequestMapping(value = "/checkcode")
 //    @ResponseBody
 //    public String checkcode(HttpServletRequest request, HttpSession session) throws Exception {
@@ -143,4 +148,5 @@ public class IndexController {
 //            return "1";
 //        }
 //    }
+
 }
