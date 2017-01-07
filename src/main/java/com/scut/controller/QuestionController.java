@@ -10,6 +10,7 @@ import org.springframework.stereotype.*;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.*;
+import javax.servlet.http.*;
 import java.util.*;
 
 /**
@@ -100,23 +101,34 @@ public class QuestionController {
 //返回指定问题的评论(按时间排序)
     @GetMapping(value = "/q/{id}/comments/time")
     @ResponseBody
-    public Map<String,Object> getQuestionCommentsByTime(@RequestParam(value = "uid",required = false)Integer uid,
-                                                  @RequestParam(value = "page",defaultValue = "0")Integer page,
-                                                  @RequestParam(value = "size",defaultValue = "2")Integer size,
-                                                  @PathVariable("id")Integer qid){
+    public Map<String,Object> getQuestionCommentsByTime(@RequestParam(value = "page",defaultValue = "0")Integer page,
+                                                        @RequestParam(value = "size",defaultValue = "2")Integer size,
+                                                        @PathVariable("id")Integer qid,
+                                                        HttpSession session){
         Sort sort=new Sort(Sort.Direction.DESC,"time");
         Pageable pageable = new PageRequest(page, size, sort);
+        User user=(User)session.getAttribute("user");
+        Integer uid=null;
+        if(user!=null){
+            uid=user.getId();
+        }
         return questionService.getQuestionComments(uid,qid, pageable);
     }
 
     @GetMapping(value = "/q/{id}/comments/hot")
     @ResponseBody
-    public Map<String,Object> getQuestionCommentsByHot(@RequestParam(value = "uid",required = false)Integer uid,
-                                                  @RequestParam(value = "page",defaultValue = "0")Integer page,
+    public Map<String,Object> getQuestionCommentsByHot(@RequestParam(value = "page",defaultValue = "0")Integer page,
                                                   @RequestParam(value = "size",defaultValue = "2")Integer size,
-                                                  @PathVariable("id")Integer qid){
+                                                  @PathVariable("id")Integer qid,
+                                                       HttpSession session){
         Sort sort=new Sort(Sort.Direction.DESC,"numOfAnswer");
         Pageable pageable = new PageRequest(page, size, sort);
+
+        User user=(User)session.getAttribute("user");
+        Integer uid=null;
+        if(user!=null){
+            uid=user.getId();
+        }
         return questionService.getQuestionComments(uid,qid, pageable);
     }
 

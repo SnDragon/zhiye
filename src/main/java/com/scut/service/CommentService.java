@@ -110,7 +110,8 @@ public class CommentService {
         System.out.println("number:"+number);
         //如果有父评论，则其回答数减number
         if(comment.getParentId()!=null){
-            commentDao.subNumOfAnswer(comment.getParentId(),number);
+            Integer ppid=Integer.parseInt(comment.getThread().split("/")[1]);
+            commentDao.subNumOfAnswer(ppid,number);
         }else{
             //更新问题评论数
             questionDao.substractComment(comment.getQuestion().getId(),1);

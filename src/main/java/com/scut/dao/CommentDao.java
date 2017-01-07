@@ -32,7 +32,7 @@ public interface CommentDao extends Repository<Comment,Integer>{
     @Query("select c from Comment c where c.question.id=?1 and c.thread like CONCAT(?2,'%') order by c.time desc")
     List<Comment> findByThread(Integer qid,String thread);
 
-    @Query("select c from Comment c where c.question.id=?1")
+    @Query("select c from Comment c where c.question.id=?1 and c.thread='/'")
     Page<Comment> getQuestionComments(Integer qid, Pageable pageable);
 
 
