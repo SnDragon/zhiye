@@ -6,6 +6,7 @@ import javax.persistence.*;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import java.io.*;
 import java.sql.*;
 import java.util.*;
 
@@ -15,7 +16,7 @@ import java.util.*;
 @Entity
 @Table(name = "question")
 @DynamicInsert
-public class Question {
+public class Question implements Serializable{
     private Integer id;
     private Integer authorId;
     private String authorName;

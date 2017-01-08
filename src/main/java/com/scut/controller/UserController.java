@@ -7,6 +7,7 @@ import com.scut.service.*;
 import org.apache.log4j.*;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.*;
+import org.springframework.util.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.*;
 
@@ -38,15 +39,41 @@ public class UserController {
 //    处理用户登录
     @PostMapping(value = "/loginResult",produces = "application/json")
     @ResponseBody
-    public String doLogin(@RequestBody User user, HttpSession session){
+    public String doLogin(@RequestParam("email")String email,
+                          @RequestParam("password")String password,
+                          @RequestParam("code")String checkCode,
+                          HttpSession session){
+        System.out.println("checkCode:"+checkCode);
         Message<String> message=new Message<>();
-        System.out.println(user);
+        message.setFlag("fail");
+
+        Object cko = session.getAttribute("simpleCaptcha") ; //验证码对象
+        if(cko == null){
+            message.setContent("验证码已失效，请重新输入！");
+            return gson.toJson(message);
+        }
+        String captcha = cko.toString();
+        System.out.println("captcha:"+captcha);
+        Date now = new Date();
+        Long codeTime = Long.valueOf(session.getAttribute("codeTime")+"");
+        if(StringUtils.isEmpty(checkCode) || captcha == null ||  !(checkCode.equalsIgnoreCase(captcha))) {
+            message.setContent("验证码错误");
+            return gson.toJson(message);
+        } else if ((now.getTime()-codeTime)/1000/60>5) {
+            //验证码有效时长为5分钟
+            message.setContent("验证码已失效，请重新输入！");
+            return gson.toJson(message);
+        }
+
+        User user=new User(email,password);
+        session.removeAttribute("simpleCaptcha");
         User user1=userService.doLogin(user);
         if(user1!=null){
             message.setFlag("success");
             session.setAttribute("user",user1);
         }else{
             message.setFlag("fail");
+            message.setContent("登录失败，检查用户名或密码！");
         }
         return gson.toJson(message);
     }

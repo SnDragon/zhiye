@@ -174,8 +174,7 @@ function getMore() {
 
                 var str = '<div class="ask-item List-item" id="que-'
                     + this.id + '"><button class="delete del-ask commentBox-textButton" data-toggle="modal" data-target="#deleteModal">删除</button><span class="ask-title"><a href="/questions/question/'
-                    + this.id + '" target="_blank" title="进入问题主页" id="que-'
-                    + this.id + '" class="question-link">'
+                    + this.id + '" target="_blank" title="进入问题主页" class="question-link">'
                     + this.title + '</a></span><div class="ask-status"><span class="ask-statusItem">'
                     + time + '</span><span class="ask-statusItem">'
                     + this.numOfAnswers + '个回答</span></div></div>';

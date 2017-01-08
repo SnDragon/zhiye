@@ -5,6 +5,7 @@ import org.hibernate.annotations.*;
 import javax.persistence.*;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import java.io.*;
 
 /**
  * Created by pc on 2016/12/30.
@@ -12,7 +13,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name="user")
 @DynamicInsert
-public class User {
+public class User implements Serializable{
 
     private Integer id;
     private String email;
@@ -23,6 +24,17 @@ public class User {
 
     private Integer numOfQuestion;
     private Integer numOfAnswer;
+
+//    private String checkCode;
+//    @Transient
+//    public String getCheckCode() {
+//        return checkCode;
+//    }
+//
+//    public void setCheckCode(String checkCode) {
+//        this.checkCode = checkCode;
+//    }
+
     @Transient
     public Integer getNumOfAnswer() {
         return numOfAnswer;
@@ -47,6 +59,11 @@ public class User {
     }
 
     public User() {
+    }
+
+    public User(String email,String password){
+        this.email=email;
+        this.password=password;
     }
 
     @Id

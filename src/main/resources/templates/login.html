@@ -25,7 +25,12 @@
 				</div>
 				<div>
 					<label for="password">密码</label>
-					<input type="password" name="password" id="password" placeholder="输入你的密码" class="form-control" required="true" />
+					<input type="password" name="password" id="password" placeholder="请输入你的密码" class="form-control" required="true" />
+				</div>
+				<div>
+					<label for="code">验证码</label>
+					<input type="text" name="code" id="code" placeholder="请输入验证码" class="form-control" required="true" style="width: 150px;" />
+					&nbsp;&nbsp;<img id="codeImage" src="/images/imagecode" alt="验证码" title="换一个验证码" />
 				</div>
 				<span class="errorMessage"></span>
                 <button id ="login" type="submit" class="change btn btn-primary">登录</button>
@@ -55,10 +60,15 @@
 <script type="text/javascript">
 //	var path="/zhiye";
 	$(document).ready(function(){
+	    $("#codeImage").click(function () {
+			$(this).attr("src", "/images/imagecode?" + Math.random());
+        });
+
 	    var $popModal = $("#popModal");
 		$("#login").click(function(){
 			var email=$("#email").val();
 			var password=$("#password").val();
+			var code = $("#code").val();
 
             var $errorMessage = $(".errorMessage");
             var errorMessage = "";
@@ -70,22 +80,26 @@
 	     	}else if(password.replace(/\s+/g,'') == "") {
           		errorMessage = "请输入密码";
           		$errorMessage.html(errorMessage);
-	     	}else {
+	     	}else if(code.replace(/\s+/g,'') == "") {
+			    errorMessage = "请输入验证码";
+                $errorMessage.html(errorMessage);
+			}else {
 				$.ajax({
 					type:"POST",
 					url:"/users/loginResult",
-					contentType:"application/json",
-					data:JSON.stringify({
+//					contentType:"application/json",
+					data:{
 						email:email,
-						password:password
-					}),
+						password:password,
+						code: code
+					},
 					dataType:"json",
 					success:function(data){
 						console.log(JSON.stringify(data));
 						if(data.flag=="success"){
 							window.location.href="/index";
 						}else{
-                            $popModal.find(".modal-body").html("登录失败");
+                            $popModal.find(".modal-body").html(data.content);
                             $popModal.modal("show");
 						}
 					}

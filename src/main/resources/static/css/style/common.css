@@ -160,6 +160,10 @@ li {
 .AppHeader-inner .AppName:hover {
     text-decoration: none;
 }
+.AppHeader-navItem.active {
+    font-size: 18px;
+    font-weight: 700;
+}
 
 /*导航栏*/
 .AppHeader-nav {

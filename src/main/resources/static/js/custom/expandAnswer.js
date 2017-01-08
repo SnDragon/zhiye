@@ -6,10 +6,11 @@
 $(function () {
     $(document).on("click", ".feed-item .expand, .answer-item .expand", function () {
         var $parent = $(this).parent();
-        // if($parent.next().html()){
-        //     $parent.addClass("hide");            // 隐藏简文
-        //     $parent.next().removeClass("hide");  // 显示全文
-        // }
+        if($parent.next().html()){
+            $parent.addClass("hide");            // 隐藏简文
+            $parent.next().removeClass("hide");  // 显示全文
+            return true;
+        }
 
         var $item;
 

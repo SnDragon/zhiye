@@ -1,6 +1,7 @@
 package com.scut.dao;
 
 import com.scut.entity.*;
+import org.springframework.cache.annotation.*;
 import org.springframework.data.jpa.repository.*;
 import org.springframework.data.repository.Repository;
 import java.util.*;

@@ -7,10 +7,11 @@ $(function() {
     // “显示全部”与“收起”
     $(document).on("click", ".feed-content .feed-summary .expand, .question-detail .feed-summary .expand", function(){
         var $parent = $(this).parent();
-        // if($parent.next().html()){
-        //     $parent.addClass("hide");            // 隐藏简文
-        //     $parent.next().removeClass("hide");  // 显示全文
-        // }
+        if($parent.next().html()){
+            $parent.addClass("hide");            // 隐藏简文
+            $parent.next().removeClass("hide");  // 显示全文
+            return true;
+        }
 
         var $item;
 

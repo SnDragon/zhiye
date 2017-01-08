@@ -10,6 +10,8 @@ var finish = false,
     page = 0;
 
 $(document).ready(function(){
+    $(".AppHeader-navItem").eq(1).addClass("active");
+
     var $loadMore = $(".load-more");
     var $more = $loadMore.find(".more");
 

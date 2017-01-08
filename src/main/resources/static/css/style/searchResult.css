@@ -10,6 +10,7 @@
 .Tabs-item {
     display: inline-block;
     padding: 0 20px;
+    cursor: pointer;
 }
 .Tabs-link {
     position: relative;

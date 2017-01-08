@@ -6,6 +6,8 @@ var finish = false;
 var page = 0;
 
 $(document).ready(function(){
+    $(".AppHeader-navItem").eq(0).addClass("active");
+
     var userId = $("#user_id").val();
     var $loadMore = $(".load-moreH");
     var $more = $loadMore.find(".more");

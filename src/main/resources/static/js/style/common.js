@@ -248,6 +248,7 @@ $(function(){
         if($(this).hasClass("commentReply-cancelButton")){
             $(this).parents(".commentItem").find(".action-reply").click();
         }else if($(this).hasClass("commentReply-submitButton")){
+            var $this = $(this);
             // 回复评论后，添加到评论区
             // 取得原评论的信息
             var $item = $(this).parents(".commentItem"),
@@ -329,7 +330,7 @@ $(function(){
                     var newNum = parseInt($answerItem.find(".comment-num").html()) + 1;
                     $answerItem.find(".comment-num").html(newNum);
                     // 模拟“取消”被点击
-                    $(this).siblings(".commentReply-cancelButton").click();
+                    $this.siblings(".commentReply-cancelButton").click();
                 }
             });
         }
@@ -464,6 +465,20 @@ $(function(){
     // 提问，先清除模态框中输入框的内容
     $(document).on("click", ".SearchBar-askButton", function(){
         $("#askModal textarea").val("");
+    });
+
+
+
+
+    // 搜索框不为空
+    $("#searchBtn").click(function () {
+        if(checkEmpty($(this).prev().find("input"))) {
+            alert("请输入搜索关键字");
+            return false;
+        }else {
+            var v = $.trim($(this).prev().find("input").val());
+            $(this).prev().find("input").val(v);
+        }
     });
 });
 

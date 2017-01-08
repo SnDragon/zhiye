@@ -65,13 +65,15 @@ public class QuestionService {
         return questionPage;
     }
 
-    public Page<Question> getQuestionListByPageOrderByHot(Pageable pageable) {
-        Page<Question> questionPage = questionDao.findAll(pageable);
-        List<Question> questions = questionPage.getContent();
+    public List<Question> getQuestionListByPageOrderByHot(Pageable pageable) {
+
+//        int begin=page*size;
+        List<Question> questions = questionDao.findOrderByHot(pageable);
+//        List<Question>  = questionPage.getContent();
         for(Question q:questions){
             q.setSummary(ContentUtil.transform(q.getSummary()));
         }
-        return questionPage;
+        return questions;
     }
 
     public int  getQuestionCountByAuthorId(Integer uid){

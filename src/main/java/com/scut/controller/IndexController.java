@@ -27,15 +27,15 @@ public class IndexController {
 
     @GetMapping(value = {"/","/login"})
     public String index(HttpSession session){
-//        return "login";
-        User user=new User();
-        user.setUserName("dragon");
-        user.setId(1);
-        user.setSex(1);
-        user.setEmail("1803240383@qq.com");
-        user.setIntegral(0);
-        session.setAttribute("user",user);
-        return "redirect:/index";
+        return "login";
+//        User user=new User();
+//        user.setUserName("dragon");
+//        user.setId(1);
+//        user.setSex(1);
+//        user.setEmail("1803240383@qq.com");
+//        user.setIntegral(0);
+//        session.setAttribute("user",user);
+//        return "redirect:/index";
     }
 
     @GetMapping(value = "/register")
@@ -124,29 +124,10 @@ public class IndexController {
     public String testPut(){
         return "put success!";
     }
-//    @RequestMapping(value = "/checkcode")
-//    @ResponseBody
-//    public String checkcode(HttpServletRequest request, HttpSession session) throws Exception {
-//        String checkCode = request.getParameter("checkCode");
-//        Object cko = session.getAttribute("simpleCaptcha") ; //验证码对象
-//        if(cko == null){
-//            request.setAttribute("errorMsg", "验证码已失效，请重新输入！");
-//            return "验证码已失效，请重新输入！";
-//        }
-//        String captcha = cko.toString();
-//        Date now = new Date();
-//        Long codeTime = Long.valueOf(session.getAttribute("codeTime")+"");
-//        if(StringUtils.isEmpty(checkCode) || captcha == null ||  !(checkCode.equalsIgnoreCase(captcha))) {
-//            request.setAttribute("errorMsg", "验证码错误！");
-//            return "验证码错误！";
-//        } else if ((now.getTime()-codeTime)/1000/60>5) {
-//            //验证码有效时长为5分钟
-//            request.setAttribute("errorMsg", "验证码已失效，请重新输入！");
-//            return "验证码已失效，请重新输入！";
-//        }else {
-//            session.removeAttribute("simpleCaptcha");
-//            return "1";
-//        }
-//    }
 
+    @GetMapping(value = "/logout")
+    public String logout(HttpSession session){
+        session.invalidate();
+        return "redirect:/";
+    }
 }

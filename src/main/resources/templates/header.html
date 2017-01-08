@@ -4,14 +4,15 @@
         <nav role="navigation" class="AppHeader-nav">
             <a href="/index" class="AppHeader-navItem">首页</a>
             <a href="/discovery" class="AppHeader-navItem">发现</a>
+            <a href="/logout" class="AppHeader-navItem backToLogin">退出</a>
         </nav>
         <div role="search" class="SearchBar">
             <div class="SearchBar-toolWrapper">
-                <form action="searchResultQue.html" class="SearchBar-tool">
+                <form action="/searchQuestion" method="get" class="SearchBar-tool">
                     <div class="SearchBar-input">
-                        <input type="text" name="" aria-expanded="false" class="form-control" placeholder="搜索你感兴趣的内容" />
+                        <input type="text" name="key" aria-expanded="false" class="form-control" placeholder="搜索你感兴趣的内容" />
                     </div>
-                    <button class="btn btn-default SearchBar-searchIcon">搜索</button>
+                    <button class="btn btn-default SearchBar-searchIcon" id="searchBtn">搜索</button>
                 </form>
             </div>
             <button type="button" class="SearchBar-askButton Button Button--primary Button--blue" data-toggle="modal" data-target="#askModal">提问</button>

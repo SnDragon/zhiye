@@ -1,6 +1,8 @@
 package com.scut.dao;
 
 import com.scut.entity.*;
+import com.scut.util.*;
+import org.springframework.cache.annotation.*;
 import org.springframework.data.domain.*;
 import org.springframework.data.jpa.repository.*;
 import org.springframework.data.repository.*;
@@ -13,9 +15,13 @@ import java.util.*;
  * Created by pc on 2016/12/31.
  */
 @org.springframework.stereotype.Repository
+@CacheConfig(cacheNames = "questions",keyGenerator = "wiselyKeyGenerator")
 public interface QuestionDao extends Repository<Question,Integer>{
     Question save(Question question);
 
+    @Query("select q from Question q order by q.numOfAnswers")
+    @Cacheable
+    List<Question> findOrderByHot(Pageable pageable);
     //    List<Question> findAll();
     Page<Question> findAll(Pageable pageable);
 
@@ -25,7 +31,7 @@ public interface QuestionDao extends Repository<Question,Integer>{
     @Query("select count(q.id) from Question q where q.authorId=?1")
     int getQuestionCountByAuthorId(Integer uid);
 
-
+    @Cacheable
     Question findById(Integer qid);
 
     @Query("delete from Question q where q.id=?1 and q.authorId=?2")

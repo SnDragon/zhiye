@@ -1,4 +1,4 @@
-package com.scut.util;
+package com.scut.config;
 
 import org.springframework.boot.context.embedded.*;
 import org.springframework.context.annotation.*;

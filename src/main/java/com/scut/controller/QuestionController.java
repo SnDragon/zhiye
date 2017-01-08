@@ -76,10 +76,10 @@ public class QuestionController {
                                                     @RequestParam(value = "size",defaultValue = "2")Integer size){
         Sort sort=new Sort(Sort.Direction.DESC,"numOfAnswers");
         Pageable pageable=new PageRequest(page,size,sort);
-        Page<Question> questionPage = questionService.getQuestionListByPageOrderByHot(pageable);
+        List<Question> questionList = questionService.getQuestionListByPageOrderByHot(pageable);
         Map<String,Object> map=new HashMap<>();
-        map.put("last",questionPage.isLast());
-        map.put("content",questionPage.getContent());
+//        map.put("last",questionPage.isLast());
+        map.put("content",questionList);
 //        System.out.print(questionPage.getContent().get(0).getCommentList().size());
 //        System.out.print(questionPage.getContent().get(0).getCommentList().get(0));
         return map;
