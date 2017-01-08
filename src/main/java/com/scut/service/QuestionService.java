@@ -41,6 +41,7 @@ public class QuestionService {
             QuestionContent questionContent=new QuestionContent(question.getId(),summary);
             questionContentDao.save(questionContent);
         }else{
+            question.setType(0);
             question=questionDao.save(question);
         }
         question.setSummary(ContentUtil.transform(question.getSummary()));

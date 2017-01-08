@@ -19,7 +19,7 @@ import java.util.*;
 public interface QuestionDao extends Repository<Question,Integer>{
     Question save(Question question);
 
-    @Query("select q from Question q order by q.numOfAnswers")
+    @Query("select q from Question q order by q.numOfAnswers desc")
     @Cacheable
     List<Question> findOrderByHot(Pageable pageable);
     //    List<Question> findAll();
